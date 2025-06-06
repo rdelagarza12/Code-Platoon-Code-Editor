@@ -12,163 +12,32 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/theme/monokai.min.css">
   
+  <!-- External CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
   <!-- Axios CDN -->
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   
   <!-- CodeMirror JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/python/python.min.js"></script>
-  
-  <style>
-    /* Global body styles */
-    body {
-      background-color: #2d2d2d;
-      color: #f7f7f7;
-      font-family: 'Roboto', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    /* Container to center and contain everything */
-    .wrapper {
-      max-width: 800px;
-      margin: 40px auto;
-      background: #1e1e1e;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    }
-    
-    /* CodeMirror inline styling */
-    .CodeMirror {
-      height: 300px;
-      border: 1px solid #555;
-      border-radius: 4px;
-    }
-    
-    /* Button styles */
-    button {
-      display: inline-block;
-      background-color: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 12px 24px;
-      margin-top: 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    
-    button:hover {
-      background-color: #45a049;
-    }
-    
-    /* Output container styling */
-    #output {
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #555;
-      background: #333;
-      border-radius: 4px;
-      white-space: pre-wrap;
-      font-family: monospace;
-    }
-    
-    /* Header styles */
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #eaeaea;
-    }
-  </style>
 </head>
 <body>
   <div class="wrapper">
+    <h2>Code Editor</h2>
+
     <!-- CodeMirror Editor -->
-    <textarea id="codeEditor">print("Hello, Judge0!")</textarea>
+    <textarea id="codeEditor"></textarea>
     
     <!-- Button to run the code -->
-    <button id="runCodeButton">Run Your Code</button>
+    <button id="runCodeButton">Run</button>
     
     <!-- Output container -->
     <h4>Output</h4>
     <div id="output"></div>
   </div>
   
-  <script>
-    // Initialize CodeMirror on the textarea.
-    const editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
-      lineNumbers: true,
-      mode: "python",
-      theme: "monokai"
-    });
-    editor.setSize("100%", "300px");
-    
-    // Function to submit the code to Judge0 for execution.
-    async function submitCode() {
-      const userCode = editor.getValue(); // Capture the code from CodeMirror
-      const payload = {
-        source_code: userCode,
-        language_id: 71, // Python 3 language id.
-        stdin: ""       // Optional: Provide input data if needed.
-      };
-
-      try {
-        // Removed the wait parameter to avoid errors.
-        const submissionResponse = await axios.post(
-          "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false",
-          payload,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY', // Replace with your API key
-              'x-rapidapi-host': 'YOUR_RAPIDAPI_HOST'  // Replace with your API host
-            }
-          }
-        );
-        
-        const token = submissionResponse.data.token;
-        console.log("Submission Token:", token);
-        // Start polling for the result using the token.
-        pollForResult(token);
-      } catch (error) {
-        console.error("Error submitting the code:", error);
-        document.getElementById("output").innerText = `Submission error: ${error.message}`;
-      }
-    }
-    
-    // Function to poll Judge0 for the submission result.
-    async function pollForResult(token) {
-      const pollUrl = `https://judge0-ce.p.rapidapi.com/submissions/${token}?base64_encoded=false`;
-      const pollInterval = 2000;  // Poll every 2 seconds
-      
-      const poll = setInterval(async () => {
-        try {
-          const resultResponse = await axios.get(pollUrl, {
-            headers: {
-              'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
-              'x-rapidapi-host': 'YOUR_RAPIDAPI_HOST'
-            }
-          });
-          const resultData = resultResponse.data;
-  
-          // Judge0 status.id: (1-2: Pending/Processing, 3+: Complete)
-          if (resultData.status.id >= 3) {
-            clearInterval(poll);
-            console.log("Execution Result:", resultData);
-            // Show stdout if available; otherwise, show stderr or a default message.
-            document.getElementById("output").innerText = resultData.stdout || resultData.stderr || "No output available.";
-          }
-        } catch (err) {
-          console.error("Error polling for result:", err);
-          clearInterval(poll);
-          document.getElementById("output").innerText = `Polling error: ${err.message}`;
-        }
-      }, pollInterval);
-    }
-    
-    // Attach the event listener to run code when the button is clicked.
-    document.getElementById("runCodeButton").addEventListener("click", submitCode);
-  </script>
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
 </body>
 </html>

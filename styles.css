@@ -1,0 +1,61 @@
+/* Global body styles */
+body {
+  background-color: #2d2d2d;
+  color: #f7f7f7;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container styles */
+.wrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #1e1e1e;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+/* CodeMirror styling */
+.CodeMirror {
+  height: 300px;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+/* Button styling */
+button {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Output container styling */
+#output {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #555;
+  background: #333;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
+/* Header styles */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #eaeaea;
+}
