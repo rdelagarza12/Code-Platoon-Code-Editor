@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Run Code with Judge0</title>
+  <!-- CodeMirror CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/theme/monokai.min.css">
+  
+  <!-- Axios CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  
+  <!-- CodeMirror JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/python/python.min.js"></script>
+  
+  <style>
+    .CodeMirror { 
+      height: 300px;
+      border: 1px solid #ccc;
+    }
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+      background: #f7f7f7;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- CodeMirror Editor -->
+  <textarea id="codeEditor">print("Hello, Judge0!")</textarea>
+  
+  <!-- Button to run the code -->
+  <button id="runCodeButton">Run Your Code</button>
+  
+  <!-- Output container -->
+  <div id="output">Output will appear here</div>
+  
+  <script>
+    // Initialize CodeMirror on the textarea.
+    const editor = CodeMirror.fromTextArea(document.getElementById("codeEditor"), {
+      lineNumbers: true,
+      mode: "python",
+      theme: "monokai"
+    });
+    editor.setSize("100%", "300px");
+    
+    // Function to submit the code to Judge0 for execution.
+    async function submitCode() {
+      const userCode = editor.getValue(); // Capture the code from CodeMirror
+      const payload = {
+        source_code: userCode,
+        language_id: 71, // Python 3 language id.
+        stdin: ""       // Optional: Provide input data if needed.
+      };
+
+      try {
+        // NOTE: Removed the wait parameter to avoid the error.
+        const submissionResponse = await axios.post(
+          "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false",
+          payload,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY', // Replace with your API key
+              'x-rapidapi-host': 'YOUR_RAPIDAPI_HOST'  // Replace with your API host
+            }
+          }
+        );
+        
+        const token = submissionResponse.data.token;
+        console.log("Submission Token:", token);
+        // Start polling for the result using the received submission token.
+        pollForResult(token);
+      } catch (error) {
+        console.error("Error submitting the code:", error);
+        document.getElementById("output").innerText = `Submission error: ${error.message}`;
+      }
+    }
+    
+    // Function to poll Judge0 for the submission result.
+    async function pollForResult(token) {
+      const pollUrl = `https://judge0-ce.p.rapidapi.com/submissions/${token}?base64_encoded=false`;
+      const pollInterval = 2000;  // Poll every 2 seconds
+      
+      const poll = setInterval(async () => {
+        try {
+          const resultResponse = await axios.get(pollUrl, {
+            headers: {
+              'x-rapidapi-key': 'YOUR_RAPIDAPI_KEY',
+              'x-rapidapi-host': 'YOUR_RAPIDAPI_HOST'
+            }
+          });
+          const resultData = resultResponse.data;
+  
+          // Judge0 status.id: values 1-2 are Pending/Processing; 3 or higher is complete.
+          if (resultData.status.id >= 3) {
+            clearInterval(poll);
+            console.log("Execution Result:", resultData);
+            // Display the result: stdout (or stderr if available).
+            document.getElementById("output").innerText = resultData.stdout || resultData.stderr || "No output available.";
+          }
+        } catch (err) {
+          console.error("Error polling for result:", err);
+          clearInterval(poll);
+          document.getElementById("output").innerText = `Polling error: ${err.message}`;
+        }
+      }, pollInterval);
+    }
+    
+    // Attach the event to trigger upon clicking the button.
+    document.getElementById("runCodeButton").addEventListener("click", submitCode);
+  </script>
+</body>
+</html>
