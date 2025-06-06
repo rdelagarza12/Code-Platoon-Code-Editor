@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Run Code with Judge0</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+  
   <!-- CodeMirror CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/theme/monokai.min.css">
@@ -15,32 +20,80 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/python/python.min.js"></script>
   
   <style>
-    .CodeMirror { 
-      height: 300px;
-      border: 1px solid #ccc;
+    /* Global body styles */
+    body {
+      background-color: #2d2d2d;
+      color: #f7f7f7;
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
     }
+    /* Container to center and contain everything */
+    .wrapper {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* CodeMirror inline styling */
+    .CodeMirror {
+      height: 300px;
+      border: 1px solid #555;
+      border-radius: 4px;
+    }
+    
+    /* Button styles */
+    button {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 12px 24px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    button:hover {
+      background-color: #45a049;
+    }
+    
+    /* Output container styling */
     #output {
       margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
+      padding: 15px;
+      border: 1px solid #555;
+      background: #333;
+      border-radius: 4px;
       white-space: pre-wrap;
-      background: #f7f7f7;
+      font-family: monospace;
     }
-    button {
-      margin-top: 10px;
-      padding: 8px 12px;
+    
+    /* Header styles */
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #eaeaea;
     }
   </style>
 </head>
 <body>
-  <!-- CodeMirror Editor -->
-  <textarea id="codeEditor">print("Hello, Judge0!")</textarea>
-  
-  <!-- Button to run the code -->
-  <button id="runCodeButton">Run Your Code</button>
-  
-  <!-- Output container -->
-  <div id="output">Output will appear here</div>
+  <div class="wrapper">
+    <!-- CodeMirror Editor -->
+    <textarea id="codeEditor">print("Hello, Judge0!")</textarea>
+    
+    <!-- Button to run the code -->
+    <button id="runCodeButton">Run Your Code</button>
+    
+    <!-- Output container -->
+    <h4>Output</h4>
+    <div id="output"></div>
+  </div>
   
   <script>
     // Initialize CodeMirror on the textarea.
@@ -61,7 +114,7 @@
       };
 
       try {
-        // NOTE: Removed the wait parameter to avoid the error.
+        // Removed the wait parameter to avoid errors.
         const submissionResponse = await axios.post(
           "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=false",
           payload,
@@ -76,7 +129,7 @@
         
         const token = submissionResponse.data.token;
         console.log("Submission Token:", token);
-        // Start polling for the result using the received submission token.
+        // Start polling for the result using the token.
         pollForResult(token);
       } catch (error) {
         console.error("Error submitting the code:", error);
@@ -99,11 +152,11 @@
           });
           const resultData = resultResponse.data;
   
-          // Judge0 status.id: values 1-2 are Pending/Processing; 3 or higher is complete.
+          // Judge0 status.id: (1-2: Pending/Processing, 3+: Complete)
           if (resultData.status.id >= 3) {
             clearInterval(poll);
             console.log("Execution Result:", resultData);
-            // Display the result: stdout (or stderr if available).
+            // Show stdout if available; otherwise, show stderr or a default message.
             document.getElementById("output").innerText = resultData.stdout || resultData.stderr || "No output available.";
           }
         } catch (err) {
@@ -114,7 +167,7 @@
       }, pollInterval);
     }
     
-    // Attach the event to trigger upon clicking the button.
+    // Attach the event listener to run code when the button is clicked.
     document.getElementById("runCodeButton").addEventListener("click", submitCode);
   </script>
 </body>
