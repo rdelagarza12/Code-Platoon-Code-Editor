@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 1: Favorite Fruit</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Codemirror JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/python/python.min.js"></script>
+  <!-- Pyodide JS-->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Exercise 2: Favorite Fruit</h1>
+  <p>
+    Write a program that asks the user for their favorite fruit and then saves it to a variable with a name of your choice
+  </p>
+  <h4>Tasks</h4>
+  <ol>
+    <li>Ask the user to input their name</li>
+    <li>Store the input in a variable</li>
+    <li>Print the variable</li>
+  </ol>
+  <p>Example:<br> If the user enters "Banana", your program should output: "Banana".</p>
+  <div class="editor-container">
+    <textarea id="code"></textarea>
+  </div>
+  <button onclick="runPython()">Run Code</button>
+  <pre id="output"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <script src="/main.js"></script>
+</body>
+</html>
