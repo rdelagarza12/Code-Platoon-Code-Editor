@@ -21,7 +21,9 @@
     <textarea id="code"></textarea>
   </div>
   <button onclick="runPython()">Run Code</button>
-  <pre id="output"></pre>
+  <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
   <div id="warning" class="warning-box" style="display: none;"></div>
 
   <script>
