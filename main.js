@@ -34,7 +34,7 @@ let pendingCode = null;
 pyWorker.onmessage = (event) => {
   const { type, message, output } = event.data;
 
-  if (type === "ready") {
+  if (type === "Ready") {
     pyodideReady = true;
     if (pendingCode !== null) {
       sendCodeToWorker(pendingCode);
