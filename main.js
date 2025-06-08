@@ -1,5 +1,6 @@
 /* main.js */
 
+const EXECUTION_TIMEOUT = 5000;
 const storageKey = `exercise-code-${window.location.pathname}`;
 const outputEl = document.getElementById("output");
 const warningEl = document.getElementById("warning");
@@ -78,6 +79,7 @@ function runPython() {
   } else {
     pendingCode = code;
   }
+
 
   // Set a timeout to prevent infinite loops
   outputEl.innerText = `Running... (max ${EXECUTION_TIMEOUT / 1000}s)`;
