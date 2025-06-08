@@ -71,6 +71,7 @@ function runPython() {
   outputEl.style.color = "#000";
   warningEl.style.display = "none";
   warningEl.innerText = "";
+  startTime = Date.now()
 
   const code = editor.getValue();
 
@@ -89,7 +90,7 @@ function runPython() {
     pyodideReady = false;
     outputEl.style.color = "red";
     outputEl.innerText = "Error: Execution timed out.";
-    warningEl.innerText = "⚠️ Code execution was stopped after 10 seconds. You might have an infinite loop.";
+    warningEl.innerText = `⚠️ Code execution was stopped after ${Date.now() - startTime} seconds. You might have an infinite loop.`;
     warningEl.style.display = "block";
   }, 5000);
 }
