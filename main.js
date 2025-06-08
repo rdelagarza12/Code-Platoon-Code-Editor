@@ -34,7 +34,7 @@ let pendingCode = null;
 pyWorker.onmessage = (event) => {
   const { type, message, output } = event.data;
 
-  if (type === "Ready") {
+  if (type === "ready") {
     pyodideReady = true;
     if (pendingCode !== null) {
       sendCodeToWorker(pendingCode);
@@ -90,7 +90,7 @@ function runPython() {
     pyodideReady = false;
     outputEl.style.color = "red";
     outputEl.innerText = "Error: Execution timed out.";
-    warningEl.innerText = `⚠️ Code execution was stopped after ${Date.now() - startTime} seconds. You might have an infinite loop.`;
+    warningEl.innerText = `⚠️ Code execution was stopped after ${((Date.now() - startTime) / 1000).toFixed(1)} seconds. You might have an infinite loop.`;
     warningEl.style.display = "block";
   }, EXECUTION_TIMEOUT);
 }

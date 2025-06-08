@@ -16,9 +16,9 @@ async function loadPyodideAndPackages() {
   pyodideReady = true;
 
   // Send status update
-  self.postMessage({ type: "status", message: "Ready" });
+  self.postMessage({ type: "status", message: "ready" });
 
-  self.postMessage({ type: "Ready" }); // Ensure the ready event is triggered
+  self.postMessage({ type: "ready" }); // Ensure the ready event is triggered
 }
 
 loadPyodideAndPackages();
