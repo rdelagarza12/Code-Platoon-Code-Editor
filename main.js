@@ -25,7 +25,7 @@ editor.on("change", () => {
 });
 
 // Create and reuse a single Pyodide worker
-let pyWorker = new Worker("./pyodideWorker.js");
+let pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js");
 let pyodideReady = false;
 let pendingCode = null;
 
