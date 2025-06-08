@@ -1,6 +1,6 @@
 /* main.js */
 
-const EXECUTION_TIMEOUT = 5000;
+const EXECUTION_TIMEOUT = 10000;
 const storageKey = `exercise-code-${window.location.pathname}`;
 const outputEl = document.getElementById("output");
 const warningEl = document.getElementById("warning");
@@ -89,7 +89,7 @@ function runPython() {
     pyodideReady = false;
     outputEl.style.color = "red";
     outputEl.innerText = "Error: Execution timed out.";
-    warningEl.innerText = "⚠️ Code execution was stopped after 3 seconds. You might have an infinite loop.";
+    warningEl.innerText = "⚠️ Code execution was stopped after 10 seconds. You might have an infinite loop.";
     warningEl.style.display = "block";
   }, 5000);
 }
