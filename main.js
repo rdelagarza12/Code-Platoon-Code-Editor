@@ -85,7 +85,7 @@ function runPython() {
   outputEl.innerText = `Running... (max ${EXECUTION_TIMEOUT / 1000}s)`;
   timeoutId = setTimeout(() => {
     pyWorker.terminate();
-    pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js"); // Restart worker
+    pyWorker = new Worker("rdelagarza12.github.io/learnworlds-ide/pyodideWorker.js"); // Restart worker
     pyodideReady = false;
     outputEl.style.color = "red";
     outputEl.innerText = "Error: Execution timed out.";
