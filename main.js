@@ -92,7 +92,7 @@ function runPython() {
     outputEl.innerText = "Error: Execution timed out.";
     warningEl.innerText = `⚠️ Code execution was stopped after ${Date.now() - startTime} seconds. You might have an infinite loop.`;
     warningEl.style.display = "block";
-  }, 5000);
+  }, EXECUTION_TIMEOUT);
 }
 
 function sendCodeToWorker(code) {
