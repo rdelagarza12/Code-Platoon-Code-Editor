@@ -29,10 +29,11 @@ editor.on("change", () => {
 let pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js");
 let pyodideReady = false;
 let pendingCode = null;
+let startTime; // Declare startTime variable at the top level
 
 // Handle messages from the worker
 pyWorker.onmessage = (event) => {
-  const { type, message, output } = event.data;
+  const { type, message, output, prompt } = event.data;
 
   if (type === "ready") {
     pyodideReady = true;
@@ -62,6 +63,24 @@ pyWorker.onmessage = (event) => {
   if (type === "status") {
     outputEl.innerText = message;
   }
+
+  // Handle input requests from Python code
+  if (type === "input_requested") {
+    // Display current output before showing input prompt
+    if (output) {
+      outputEl.innerText = output;
+    }
+    
+    // Show input prompt to user with the message from Python's input() function
+    const userInput = window.prompt(prompt || "Enter input:");
+    
+    // Send the user's input back to the worker
+    // If user cancels the prompt, send empty string
+    pyWorker.postMessage({
+      type: "input_response",
+      input: userInput !== null ? userInput : ""
+    });
+  }
 };
 
 let timeoutId;
@@ -71,7 +90,7 @@ function runPython() {
   outputEl.style.color = "#000";
   warningEl.style.display = "none";
   warningEl.innerText = "";
-  startTime = Date.now()
+  startTime = Date.now(); // Fixed: removed const declaration since it's already declared above
 
   const code = editor.getValue();
 
@@ -80,7 +99,6 @@ function runPython() {
   } else {
     pendingCode = code;
   }
-
 
   // Set a timeout to prevent infinite loops
   outputEl.innerText = `Running... (max ${EXECUTION_TIMEOUT / 1000}s)`;
@@ -96,7 +114,7 @@ function runPython() {
 }
 
 function sendCodeToWorker(code) {
-  pyWorker.postMessage(code);
+  pyWorker.postMessage({ type: "execute", code: code });
 }
 
 // Reset button
