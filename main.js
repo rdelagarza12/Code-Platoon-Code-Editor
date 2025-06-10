@@ -33,7 +33,7 @@ let startTime = null;
 
 // Create and configure Pyodide Worker
 function createPyWorker() {
-  pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js");
+  pyWorker = new Worker("/Code-Platoon-Code-Editor/pyodideWorker.js");
   pyodideReady = false;
 
   pyWorker.onmessage = (event) => {
