@@ -1,6 +1,7 @@
 let pyodideReady = false;
 let pyodide;
-let currentOutput = ""; // Track accumulated output for input prompts
+let inputResolver = null;
+let currentOutput = "";
 
 async function loadPyodideAndPackages() {
   self.postMessage({ type: "status", message: "Loading Pyodide..." });
@@ -18,39 +19,10 @@ async function loadPyodideAndPackages() {
 
   // Send status update
   self.postMessage({ type: "status", message: "ready" });
-
-  self.postMessage({ type: "ready" }); // Ensure the ready event is triggered
+  self.postMessage({ type: "ready" });
 }
 
 loadPyodideAndPackages();
-
-// Store the resolve function for pending input requests
-let inputResolver = null;
-
-/**
- * Custom input function that communicates with the main thread
- * This replaces Python's built-in input() function
- */
-function createCustomInput() {
-  return `
-def custom_input(prompt=""):
-    """
-    Custom input function that requests input from the main thread
-    """
-    import js
-    # Send input request to main thread with the prompt
-    js.postMessage({
-        "type": "input_requested", 
-        "prompt": prompt,
-        "output": mystdout.getvalue()  # Send current output
-    })
-    # Return a placeholder - the actual input will be injected
-    return "__WAITING_FOR_INPUT__"
-
-# Replace the built-in input function with our custom one
-input = custom_input
-`;
-}
 
 /**
  * Handles messages sent from the main thread
@@ -58,272 +30,212 @@ input = custom_input
 self.onmessage = async (event) => {
   const messageData = event.data;
   
-  // Handle input responses from the main thread
-  if (messageData.type === "input_response") {
+  // Handle input responses from main thread
+  if (typeof messageData === 'object' && messageData.type === "input_response") {
     if (inputResolver) {
-      inputResolver(messageData.input);
+      inputResolver(messageData.value);
       inputResolver = null;
     }
     return;
   }
   
-  // Handle code execution requests
-  if (messageData.type === "execute") {
-    const code = messageData.code;
-    
-    // Ensure Pyodide is ready before attempting execution
-    if (!pyodideReady) {
-      self.postMessage({ type: "error", message: "Pyodide not ready yet." });
-      return;
-    }
+  // Handle code execution (original string format)
+  const code = typeof messageData === 'string' ? messageData : messageData.code;
+  
+  // Ensure Pyodide is ready
+  if (!pyodideReady) {
+    self.postMessage({ type: "error", message: "Pyodide not ready yet." });
+    return;
+  }
 
-    try {
-      // Reset current output
-      currentOutput = "";
-      
-      // Create a custom input handler that uses async communication
-      const inputHandlerCode = `
+  try {
+    // Set up custom input function in Python
+    await pyodide.runPythonAsync(`
 import sys
 from io import StringIO
-import asyncio
-import js
 
 # Redirect stdout to capture output
 sys.stdout = mystdout = StringIO()
 
-# Store original input function
+# Store reference to original input for potential future use
 _original_input = input
 
-# Custom input function that communicates with main thread
-def async_input(prompt=""):
-    """Async input function that requests input from main thread"""
-    # Get current output to display
+# Custom input function that requests input from main thread
+def custom_input(prompt=""):
+    """Custom input function that communicates with main thread"""
+    import js
+    
+    # Get current output
     current_output = mystdout.getvalue()
     
     # Send input request to main thread
     js.postMessage({
-        "type": "input_requested",
+        "type": "input_request",
         "prompt": str(prompt),
         "output": current_output
     })
     
-    # Create a promise that will be resolved when input is received
-    from js import Promise
-    
-    def create_promise(resolve, reject):
-        # Store the resolve function globally so we can call it later
-        js.self.inputResolver = resolve
-    
-    return Promise.new(create_promise)
+    # This will be replaced by the actual implementation
+    return "__PLACEHOLDER__"
 
-# Override the input function
-input = async_input
-`;
+# Replace built-in input with our custom function
+input = custom_input
+`);
 
-      // First, set up the input handling system
-      await pyodide.runPythonAsync(inputHandlerCode);
-      
-      // Now execute the user's code with proper input handling
-      const wrappedCode = `
-import sys
-from io import StringIO
-import asyncio
-import js
-from js import Promise
+    // Execute user code with input support
+    await executeUserCode(code);
 
-# The input function is already overridden from the previous setup
-
-# Function to handle input requests
-async def handle_input_request():
-    """Handle a single input request"""
-    return await Promise.new(lambda resolve, reject: setattr(js.self, 'currentInputResolver', resolve))
-
-# Override input to work with our async system
-def sync_input(prompt=""):
-    """Synchronous input that works with our async system"""
-    current_output = mystdout.getvalue()
-    
-    # Create a synchronous promise-like mechanism
-    js.self.pendingInput = True
-    js.self.inputPrompt = str(prompt)
-    js.self.inputOutput = current_output
-    
-    # Send request to main thread
-    js.postMessage({
-        "type": "input_requested",
-        "prompt": str(prompt),
-        "output": current_output
-    })
-    
-    # Return placeholder that will be replaced
-    return "__INPUT_PLACEHOLDER__"
-
-# Replace input function
-input = sync_input
-
-try:
-    # Execute the user code
-    ${JSON.stringify(code)}
-except Exception as e:
-    print("Error:", e)
-
-# Get the final output
-output = mystdout.getvalue()
-`;
-
-      // Execute the code and handle input requests
-      await executeCodeWithInputHandling(wrappedCode);
-      
-    } catch (err) {
-      self.postMessage({ type: "error", message: err.toString() });
-    }
+  } catch (err) {
+    self.postMessage({ type: "error", message: err.toString() });
   }
 };
 
 /**
- * Execute code with proper input handling
+ * Execute user code with proper input handling
  */
-async function executeCodeWithInputHandling(wrappedCode) {
+async function executeUserCode(userCode) {
   try {
-    // Split the code into lines to process input() calls
-    const lines = wrappedCode.split('\n');
-    let modifiedCode = lines.join('\n');
+    // Check if code contains input() calls
+    const hasInput = /input\s*\(/g.test(userCode);
     
-    // Check if the code contains input() calls
-    const hasInputCalls = /input\s*\(/g.test(modifiedCode);
-    
-    if (hasInputCalls) {
-      // Handle code with input() calls using a different approach
-      await executeCodeWithInputPrompts(modifiedCode);
-    } else {
-      // Execute normally for code without input() calls
-      await pyodide.runPythonAsync(modifiedCode);
+    if (!hasInput) {
+      // No input calls - execute normally
+      await pyodide.runPythonAsync(`
+try:
+    exec(${JSON.stringify(userCode)})
+except Exception as e:
+    print("Error:", e)
+
+output = mystdout.getvalue()
+`);
+      
       const output = pyodide.globals.get("output");
       self.postMessage({ type: "result", output });
+      return;
     }
+
+    // Code has input calls - handle them
+    await executeCodeWithInput(userCode);
+    
   } catch (err) {
     self.postMessage({ type: "error", message: err.toString() });
   }
 }
 
 /**
- * Execute code that contains input() calls by handling them sequentially
+ * Execute code that contains input() calls
  */
-async function executeCodeWithInputPrompts(code) {
-  // Create a modified version of the code execution
-  const setupCode = `
-import sys
-from io import StringIO
-
-# Redirect stdout to capture output
-sys.stdout = mystdout = StringIO()
-
-# Create a list to store input values
+async function executeCodeWithInput(userCode) {
+  // Create a modified input function that works synchronously
+  await pyodide.runPythonAsync(`
+# List to store input values
 _input_values = []
 _input_index = 0
 
-def mock_input(prompt=""):
-    """Mock input function that uses pre-provided values"""
+def sync_input(prompt=""):
+    """Synchronous input function using pre-collected values"""
     global _input_index
+    
     if _input_index < len(_input_values):
         value = _input_values[_input_index]
         _input_index += 1
+        
+        # Print the prompt and echo the input (like real input() does)
         if prompt:
             print(prompt, end="")
-        print(value)  # Echo the input
+        print(value)
+        
         return value
     else:
-        return ""  # Return empty string if no more inputs
+        return ""
 
-# Store original input
-_original_input = input
-input = mock_input
-`;
+# Replace input function
+input = sync_input
+`);
 
-  await pyodide.runPythonAsync(setupCode);
+  // Parse and collect all input prompts
+  const inputPrompts = extractInputPrompts(userCode);
   
-  // Extract and execute the user code with input simulation
-  const userCodeExtraction = `
-user_code = ${JSON.stringify(code)}
-`;
-  
-  await pyodide.runPythonAsync(userCodeExtraction);
-  
-  // Now we need to parse the code and handle input() calls
-  await handleInputsInCode();
-}
-
-/**
- * Handle input() calls in the user's code
- */
-async function handleInputsInCode() {
-  // Get the user's code
-  const userCode = pyodide.globals.get("user_code");
-  
-  // Create a simple parser to find input() calls
-  const inputRegex = /input\s*\(\s*([^)]*)\s*\)/g;
-  let match;
-  const inputCalls = [];
-  
-  while ((match = inputRegex.exec(userCode)) !== null) {
-    const promptArg = match[1].trim();
-    // Remove quotes if present
-    const prompt = promptArg.replace(/^["']|["']$/g, '');
-    inputCalls.push(prompt);
-  }
-  
-  if (inputCalls.length === 0) {
-    // No input calls found, execute normally
+  if (inputPrompts.length === 0) {
+    // Fallback: execute with original input function
     await pyodide.runPythonAsync(`
 try:
-    exec(user_code)
+    exec(${JSON.stringify(userCode)})
 except Exception as e:
     print("Error:", e)
+
 output = mystdout.getvalue()
 `);
+    
     const output = pyodide.globals.get("output");
     self.postMessage({ type: "result", output });
     return;
   }
-  
-  // Collect all inputs first
+
+  // Collect all inputs from user
   const inputValues = [];
-  for (let i = 0; i < inputCalls.length; i++) {
-    const inputValue = await requestInputFromMainThread(inputCalls[i]);
-    inputValues.push(inputValue);
+  for (const prompt of inputPrompts) {
+    const value = await requestInput(prompt);
+    inputValues.push(value);
   }
+
+  // Set input values in Python and execute code
+  pyodide.globals.set("collected_inputs", inputValues);
   
-  // Set the input values in Python
-  pyodide.globals.set("input_values", inputValues);
-  
-  // Execute the code with the collected inputs
   await pyodide.runPythonAsync(`
-_input_values = input_values
+# Set the collected input values
+_input_values = collected_inputs
 _input_index = 0
 
 try:
-    exec(user_code)
+    exec(${JSON.stringify(userCode)})
 except Exception as e:
     print("Error:", e)
 
 output = mystdout.getvalue()
 `);
-  
+
   const output = pyodide.globals.get("output");
   self.postMessage({ type: "result", output });
 }
 
 /**
- * Request input from the main thread and wait for response
+ * Extract input prompts from user code
  */
-function requestInputFromMainThread(prompt) {
+function extractInputPrompts(code) {
+  const prompts = [];
+  
+  // Simple regex to find input() calls
+  // This handles: input(), input("prompt"), input('prompt')
+  const inputRegex = /input\s*\(\s*([^)]*)\s*\)/g;
+  let match;
+  
+  while ((match = inputRegex.exec(code)) !== null) {
+    let prompt = match[1].trim();
+    
+    // Remove quotes if present
+    if (prompt.startsWith('"') && prompt.endsWith('"')) {
+      prompt = prompt.slice(1, -1);
+    } else if (prompt.startsWith("'") && prompt.endsWith("'")) {
+      prompt = prompt.slice(1, -1);
+    }
+    
+    // Use empty string if no prompt
+    prompts.push(prompt || "Enter input:");
+  }
+  
+  return prompts;
+}
+
+/**
+ * Request input from main thread
+ */
+function requestInput(prompt) {
   return new Promise((resolve) => {
-    // Store the resolver so we can call it when we get the response
     inputResolver = resolve;
     
-    // Request input from main thread
     self.postMessage({
-      type: "input_requested",
+      type: "input_request",
       prompt: prompt,
       output: currentOutput
     });

@@ -29,7 +29,7 @@ editor.on("change", () => {
 let pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js");
 let pyodideReady = false;
 let pendingCode = null;
-let startTime; // Declare startTime variable at the top level
+let startTime;
 
 // Handle messages from the worker
 pyWorker.onmessage = (event) => {
@@ -65,20 +65,19 @@ pyWorker.onmessage = (event) => {
   }
 
   // Handle input requests from Python code
-  if (type === "input_requested") {
-    // Display current output before showing input prompt
+  if (type === "input_request") {
+    // Show current output first
     if (output) {
       outputEl.innerText = output;
     }
     
-    // Show input prompt to user with the message from Python's input() function
+    // Get input from user
     const userInput = window.prompt(prompt || "Enter input:");
     
-    // Send the user's input back to the worker
-    // If user cancels the prompt, send empty string
+    // Send response back to worker
     pyWorker.postMessage({
       type: "input_response",
-      input: userInput !== null ? userInput : ""
+      value: userInput !== null ? userInput : ""
     });
   }
 };
@@ -90,7 +89,7 @@ function runPython() {
   outputEl.style.color = "#000";
   warningEl.style.display = "none";
   warningEl.innerText = "";
-  startTime = Date.now(); // Fixed: removed const declaration since it's already declared above
+  startTime = Date.now();
 
   const code = editor.getValue();
 
@@ -114,7 +113,7 @@ function runPython() {
 }
 
 function sendCodeToWorker(code) {
-  pyWorker.postMessage({ type: "execute", code: code });
+  pyWorker.postMessage(code);
 }
 
 // Reset button
