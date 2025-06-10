@@ -93,6 +93,15 @@ To create a new exercise:
    ```
 4. **Add the new file** to `index.html` under the appropriate module link
 5. **UPDATE THE SCRIPT**: When pushing to Github pages, github pages will use the file path related to the domain of your deployed page (ex: `learnworlds-ide/main.js`)
+6. **Add to LearnWorlds**: Use an iframe tag to embed it within the respective activity. Example template.:
+    ```html
+    <iframe
+      src="https://your-editor-url"
+      sandbox="allow-scripts allow-same-origin"
+      allow="clipboard-write"
+      style="width:100%; height:600px;"
+    ></iframe>
+    ```
 
 Each exercise runs independently using the shared `main.js` and `pyodideWorker.js`.
 
