@@ -180,7 +180,7 @@ function replaceInputCalls(code, inputs) {
         prompt = prompt.slice(1, -1);
       }
 
-      // 🛠️ Prompt + newline simulating real input() behavior
+      // Prompt + newline simulating real input() behavior
       return `(print(${JSON.stringify(prompt)}, end="") or print() or ${JSON.stringify(inputValue)})`;
     }
 
