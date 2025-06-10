@@ -11,10 +11,13 @@ It's used in a self-paced **Intro to Coding course** hosted on [LearnWorlds](htt
 - ✅ Run Python in the browser (via [Pyodide](https://pyodide.org/))
 - ✅ Syntax-highlighted code editor (via [CodeMirror](https://codemirror.net/))
 - ✅ Output capture using Python's `StringIO`
+- ✅ Supports user input via `input()` prompts
 - ✅ Auto-save code to `localStorage`
 - ✅ Execution timeouts to catch infinite loops
 - ✅ Error and warning messages for student feedback
+- ✅ Handles all Python errors (SyntaxError, NameError, etc.) with full traceback
 - ✅ Modular exercise files (easy to add new lessons)
+
 
 ---
 
@@ -61,9 +64,11 @@ All dependencies are loaded via CDN:
 
 ### 🔸 `pyodideWorker.js`
 - Loads Pyodide in a Web Worker
-- Runs the user’s Python code using `exec()`
-- Captures stdout with `StringIO`
-- Returns results (or errors) back to `main.js`
+- Runs Python code using `exec()`
+- Captures stdout and stderr using `StringIO`
+- Returns full output (including traceback) to `main.js`
+- Supports user input via `input()` by requesting prompts from the user
+
 
 ### 🔸 `style.css`
 - Defines layout, branding, and styling for:
@@ -88,6 +93,15 @@ To create a new exercise:
    ```
 4. **Add the new file** to `index.html` under the appropriate module link
 5. **UPDATE THE SCRIPT**: When pushing to Github pages, github pages will use the file path related to the domain of your deployed page (ex: `learnworlds-ide/main.js`)
+6. **Add to LearnWorlds**: Use an iframe tag to embed it within the respective activity. Example template.:
+    ```html
+    <iframe
+      src="https://your-editor-url"
+      sandbox="allow-scripts allow-same-origin"
+      allow="clipboard-write"
+      style="width:100%; height:600px;"
+    ></iframe>
+    ```
 
 Each exercise runs independently using the shared `main.js` and `pyodideWorker.js`.
 

@@ -1,5 +1,6 @@
 let pyodideReady = false;
 let pyodide;
+let pendingCode = null;
 
 async function loadPyodideAndPackages() {
   self.postMessage({ type: "status", message: "Loading Pyodide..." });
@@ -17,52 +18,179 @@ async function loadPyodideAndPackages() {
 
   // Send status update
   self.postMessage({ type: "status", message: "ready" });
-
-  self.postMessage({ type: "ready" }); // Ensure the ready event is triggered
+  self.postMessage({ type: "ready" });
 }
 
 loadPyodideAndPackages();
 
-
 /**
- * Handles messages sent from the main thread (e.g., user-submitted Python code).
+ * Handles messages sent from the main thread
  */
 self.onmessage = async (event) => {
-  const code = event.data;
-
-  // Ensure Pyodide is ready before attempting execution
+  const messageData = event.data;
+  
+  // Handle collected inputs from main thread
+  if (typeof messageData === 'object' && messageData.type === "inputs_collected") {
+    if (pendingCode) {
+      await executeCodeWithInputs(pendingCode, messageData.inputs);
+      pendingCode = null;
+    }
+    return;
+  }
+  
+  // Handle code execution request
+  const code = typeof messageData === 'string' ? messageData : messageData.code;
+  
+  // Ensure Pyodide is ready
   if (!pyodideReady) {
     self.postMessage({ type: "error", message: "Pyodide not ready yet." });
     return;
   }
 
   try {
-    // Wrap user code execution within an output capturing mechanism
-    const wrappedCode = `
-import sys
-from io import StringIO
+    // Check if code contains input() calls
+    const inputPrompts = extractInputPrompts(code);
+    
+    if (inputPrompts.length > 0) {
+      // Code has input() calls - request inputs from main thread
+      pendingCode = code;
+      self.postMessage({
+        type: "need_inputs",
+        prompts: inputPrompts
+      });
+    } else {
+      // No input() calls - execute directly
+      await executeCodeNormally(code);
+    }
 
-# Redirect stdout to capture output from exec()
-sys.stdout = mystdout = StringIO()
-
-try:
-    exec(${JSON.stringify(code)})  # Execute user-submitted Python code
-except Exception as e:
-    print("Error:", e)  # Catch execution errors and print them
-
-output = mystdout.getvalue()  # Store captured output
-`;
-
-    // Run the wrapped Python code asynchronously using Pyodide
-    await pyodide.runPythonAsync(wrappedCode);
-
-    // Retrieve the output from the Python global namespace
-    const output = pyodide.globals.get("output");
-
-    // Send the execution result back to the main thread
-    self.postMessage({ type: "result", output });
   } catch (err) {
-    // Handle execution errors and notify the main thread
     self.postMessage({ type: "error", message: err.toString() });
   }
 };
+
+/**
+ * Execute code without input() calls
+ */
+async function executeCodeNormally(code) {
+  try {
+    const wrappedCode = `
+import sys
+import traceback
+from io import StringIO
+
+# Redirect stdout and stderr
+sys.stdout = mystdout = StringIO()
+sys.stderr = mystderr = StringIO()
+
+try:
+    exec(${JSON.stringify(code)})
+except Exception:
+    traceback.print_exc()
+
+output = mystdout.getvalue() + mystderr.getvalue()
+`;
+
+    await pyodide.runPythonAsync(wrappedCode);
+    const output = pyodide.globals.get("output");
+    self.postMessage({ type: "result", output });
+  } catch (err) {
+    self.postMessage({ type: "error", message: err.toString() });
+  }
+}
+
+/**
+ * Execute code with collected input values
+ */
+async function executeCodeWithInputs(code, inputs) {
+  try {
+    const modifiedCode = replaceInputCalls(code, inputs);
+    
+    const wrappedCode = `
+import sys
+import traceback
+from io import StringIO
+
+# Redirect stdout and stderr
+sys.stdout = mystdout = StringIO()
+sys.stderr = mystderr = StringIO()
+
+try:
+    exec(${JSON.stringify(modifiedCode)})
+except Exception:
+    traceback.print_exc()
+
+output = mystdout.getvalue() + mystderr.getvalue()
+`;
+
+    await pyodide.runPythonAsync(wrappedCode);
+    const output = pyodide.globals.get("output");
+    self.postMessage({ type: "result", output });
+  } catch (err) {
+    self.postMessage({ type: "error", message: err.toString() });
+  }
+}
+
+
+/**
+ * Extract input prompts from code
+ */
+function extractInputPrompts(code) {
+  const prompts = [];
+  
+  // Find all input() calls using regex
+  const inputRegex = /input\s*\(\s*([^)]*)\s*\)/g;
+  let match;
+  
+  while ((match = inputRegex.exec(code)) !== null) {
+    let prompt = match[1].trim();
+    
+    // Handle different quote types and empty prompts
+    if (prompt) {
+      // Remove outer quotes if present
+      if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
+          (prompt.startsWith("'") && prompt.endsWith("'"))) {
+        prompt = prompt.slice(1, -1);
+      }
+      prompts.push(prompt);
+    } else {
+      prompts.push("Enter input:");
+    }
+  }
+  
+  return prompts;
+}
+
+/**
+ * Replace input() calls in code with actual string values
+ */
+function replaceInputCalls(code, inputs) {
+  let inputIndex = 0;
+  
+  // Replace each input() call with the corresponding input value
+  const modifiedCode = code.replace(/input\s*\(\s*([^)]*)\s*\)/g, (match, promptArg) => {
+    if (inputIndex < inputs.length) {
+      const inputValue = inputs[inputIndex];
+      inputIndex++;
+      
+      // Extract and print the prompt if it exists
+      let prompt = promptArg.trim();
+      if (prompt) {
+        // Remove quotes if present
+        if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
+            (prompt.startsWith("'") && prompt.endsWith("'"))) {
+          prompt = prompt.slice(1, -1);
+        }
+        // Print the prompt and the input value (simulating interactive input)
+        return `(print(${JSON.stringify(prompt)}, end=" ") or print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
+      } else {
+        // No prompt, just print the input value
+        return `(print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
+      }
+    } else {
+      // Fallback if we don't have enough inputs
+      return '""';
+    }
+  });
+  
+  return modifiedCode;
+}
