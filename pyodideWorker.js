@@ -181,7 +181,7 @@ function replaceInputCalls(code, inputs) {
           prompt = prompt.slice(1, -1);
         }
         // Print the prompt and the input value (simulating interactive input)
-        return `(print(${JSON.stringify(prompt)}, end="") or print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
+        return `(print(${JSON.stringify(prompt)}, end=" ") or print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
       } else {
         // No prompt, just print the input value
         return `(print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
