@@ -89,11 +89,11 @@ async function collectInputsAndExecute(prompts) {
 
   for (let i = 0; i < prompts.length; i++) {
     const prompt = prompts[i];
-    const userInput = window.prompt(prompt);
-    inputs.push(userInput !== null ? userInput : "");
+    const input = await showPromptModal(prompt);
+    inputs.push(input);
   }
 
-  // Reset timeout after collecting input
+  // Resume timeout after input
   timeoutId = setTimeout(() => {
     outputEl.style.color = "red";
     outputEl.innerText = "Error: Execution timed out.";
@@ -106,9 +106,41 @@ async function collectInputsAndExecute(prompts) {
 
   pyWorker.postMessage({
     type: "inputs_collected",
-    inputs: inputs
+    inputs
   });
 }
+
+function showPromptModal(promptText) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("input-modal");
+    const promptEl = document.getElementById("modal-prompt");
+    const inputEl = document.getElementById("modal-input");
+
+    promptEl.innerText = promptText;
+    inputEl.value = "";
+    modal.style.display = "flex";
+    inputEl.focus();
+
+    // OK handler
+    window.submitInput = () => {
+      modal.style.display = "none";
+      document.removeEventListener("keydown", keyListener);
+      resolve(inputEl.value);
+    };
+
+    // Handle Enter key
+    function keyListener(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        window.submitInput();
+      }
+    }
+
+    document.addEventListener("keydown", keyListener);
+  });
+}
+
+
 
 // Run Python button handler
 function runPython() {
