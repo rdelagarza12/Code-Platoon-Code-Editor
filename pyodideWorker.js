@@ -182,12 +182,11 @@ function replaceInputCalls(code, inputs) {
         prompt = prompt.slice(1, -1);
       }
 
-      // Simulate prompt + Enter press, then return value
-      return `(print(${JSON.stringify(prompt)}, end="") or print() or ${JSON.stringify(inputValue)})`;
+      // Print the prompt only; input value is returned silently
+      return `(print(${JSON.stringify(prompt + " ")}, end="") or ${JSON.stringify(inputValue)})`;
     }
 
     // No prompt — just return the value
     return JSON.stringify(inputValue);
   });
 }
-
