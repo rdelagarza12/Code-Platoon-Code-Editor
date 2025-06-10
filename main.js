@@ -26,68 +26,87 @@ editor.on("change", () => {
 });
 
 // Create and reuse a single Pyodide worker
-let pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js");
+let pyWorker = null;
 let pyodideReady = false;
 let pendingCode = null;
-let startTime;
+let timeoutId = null;
+let startTime = null;
 
-// Handle messages from the worker
-pyWorker.onmessage = (event) => {
-  const { type, message, output, prompts } = event.data;
+// Create a new worker and set up listeners
+function createPyWorker() {
+  pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js");
+  pyodideReady = false;
 
-  if (type === "ready") {
-    pyodideReady = true;
-    if (pendingCode !== null) {
-      sendCodeToWorker(pendingCode);
-      pendingCode = null;
+  pyWorker.onmessage = (event) => {
+    const { type, message, output, prompts } = event.data;
+
+    if (type === "ready") {
+      pyodideReady = true;
+      if (pendingCode !== null) {
+        sendCodeToWorker(pendingCode);
+        pendingCode = null;
+      }
     }
-  }
 
-  if (type === "result") {
-    clearTimeout(timeoutId);
-    outputEl.style.color = "#000";
-    outputEl.innerText = output;
-    warningEl.style.display = "none";
-  }
-
-  if (type === "error") {
-    clearTimeout(timeoutId);
-    outputEl.style.color = "red";
-    outputEl.innerText = "Error: " + message;
-    if (message.toLowerCase().includes("timeout")) {
-      warningEl.innerText = "⚠️ Execution was stopped. You might have an infinite loop.";
-      warningEl.style.display = "block";
+    if (type === "result") {
+      clearTimeout(timeoutId);
+      outputEl.style.color = "#000";
+      outputEl.innerText = output;
+      warningEl.style.display = "none";
     }
-  }
 
-  if (type === "status") {
-    outputEl.innerText = message;
-  }
+    if (type === "error") {
+      clearTimeout(timeoutId);
+      outputEl.style.color = "red";
+      outputEl.innerText = "Error: " + message;
+      if (message.toLowerCase().includes("timeout")) {
+        warningEl.innerText = "⚠️ Execution was stopped. You might have an infinite loop.";
+        warningEl.style.display = "block";
+      }
+    }
 
-  // Handle request for input collection
-  if (type === "need_inputs") {
-    collectInputsAndExecute(prompts);
-  }
-};
+    if (type === "status") {
+      outputEl.innerText = message;
+    }
+
+    if (type === "need_inputs") {
+      clearTimeout(timeoutId); // Don't timeout during user input
+      collectInputsAndExecute(prompts);
+    }
+  };
+}
+
+// Call it once on initial load
+createPyWorker();
 
 // Function to collect all inputs from user and send back to worker
 async function collectInputsAndExecute(prompts) {
   const inputs = [];
-  
+
   for (let i = 0; i < prompts.length; i++) {
     const prompt = prompts[i];
     const userInput = window.prompt(prompt);
     inputs.push(userInput !== null ? userInput : "");
   }
-  
-  // Send collected inputs back to worker
+
+  // Reset timeout AFTER inputs collected
+  timeoutId = setTimeout(() => {
+    outputEl.style.color = "red";
+    outputEl.innerText = "Error: Execution timed out.";
+    warningEl.innerText = `⚠️ Code execution was stopped after input. You might have an infinite loop.`;
+    warningEl.style.display = "block";
+
+    pyWorker.terminate();
+    createPyWorker();
+  }, EXECUTION_TIMEOUT);
+
+  // Send inputs back to worker
   pyWorker.postMessage({
     type: "inputs_collected",
     inputs: inputs
   });
 }
 
-let timeoutId;
 
 function runPython() {
   outputEl.innerText = "Running...";
@@ -105,27 +124,14 @@ function runPython() {
   }
 
   // Set a timeout to prevent infinite loops
-  outputEl.innerText = `Running... (max ${EXECUTION_TIMEOUT / 1000}s)`;
   timeoutId = setTimeout(() => {
-    pyWorker.terminate();
-    pyWorker = new Worker("/learnworlds-ide/pyodideWorker.js"); // Restart worker
-    pyodideReady = false;
     outputEl.style.color = "red";
     outputEl.innerText = "Error: Execution timed out.";
-    warningEl.innerText = `⚠️ Code execution was stopped after ${((Date.now() - startTime) / 1000).toFixed(1)} seconds. You might have an infinite loop.`;
+    warningEl.innerText = `⚠️ Code execution was stopped after ${(EXECUTION_TIMEOUT / 1000).toFixed(1)} seconds. You might have an infinite loop.`;
     warningEl.style.display = "block";
+
+    // Recreate worker for next run
+    pyWorker.terminate();
+    createPyWorker();
   }, EXECUTION_TIMEOUT);
-}
-
-function sendCodeToWorker(code) {
-  pyWorker.postMessage(code);
-}
-
-// Reset button
-function resetCode() {
-  editor.setValue(typeof initial_code !== "undefined" ? initial_code : "");
-  localStorage.removeItem(storageKey);
-  outputEl.innerText = "";
-  outputEl.style.color = "#000";
-  warningEl.style.display = "none";
 }
