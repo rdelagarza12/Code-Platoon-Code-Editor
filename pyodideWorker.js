@@ -168,7 +168,6 @@ function replaceInputCalls(code, inputs) {
 
   return code.replace(/input\s*\(\s*([^)]*)\s*\)/g, (match, promptArg) => {
     if (inputIndex >= inputs.length) {
-      // If we run out of inputs, simulate an empty string
       return '""';
     }
 
@@ -176,17 +175,16 @@ function replaceInputCalls(code, inputs) {
     let prompt = promptArg.trim();
 
     if (prompt) {
-      // Remove wrapping quotes from prompt if present
       if ((prompt.startsWith('"') && prompt.endsWith('"')) ||
           (prompt.startsWith("'") && prompt.endsWith("'"))) {
         prompt = prompt.slice(1, -1);
       }
 
-      // Print the prompt only; input value is returned silently
-      return `(print(${JSON.stringify(prompt + " ")}, end="") or ${JSON.stringify(inputValue)})`;
+      // 🛠️ Prompt + newline simulating real input() behavior
+      return `(print(${JSON.stringify(prompt)}, end="") or print() or ${JSON.stringify(inputValue)})`;
     }
 
-    // No prompt — just return the value
     return JSON.stringify(inputValue);
   });
 }
+
