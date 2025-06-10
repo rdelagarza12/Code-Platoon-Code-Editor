@@ -183,7 +183,7 @@ function replaceInputCalls(code, inputs) {
       }
 
       // Print the prompt only; input value is returned silently
-      return `(print(${JSON.stringify(prompt + " ")}, end="") or print("") or ${JSON.stringify(inputValue)})`;
+      return `(print(${JSON.stringify(prompt + " ")}, end="") or ${JSON.stringify(inputValue)})`;
     }
 
     // No prompt — just return the value
