@@ -135,3 +135,8 @@ function runPython() {
     createPyWorker();
   }, EXECUTION_TIMEOUT);
 }
+
+function sendCodeToWorker(code) {
+  pyWorker.postMessage(code);
+}
+
