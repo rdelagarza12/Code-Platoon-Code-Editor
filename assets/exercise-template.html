@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise #: Exercise Title</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Codemirror JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/python/python.min.js"></script>
+  <!-- Pyodide JS-->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Exercise #: Exercise Title</h1>
+  <p>
+    Define your problem here
+  </p>
+  <div class="editor-container">
+    <textarea id="code"></textarea>
+  </div>
+  <button onclick="runPython()">Run Code</button>
+  <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <script>
+    // Pre-loaded code for Exercise 2
+    const initial_code = `Write any predefined code here`;
+  </script>
+  <script src="/main.js"></script>
+</body>
+</html>
