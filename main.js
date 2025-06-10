@@ -33,7 +33,7 @@ let startTime;
 
 // Handle messages from the worker
 pyWorker.onmessage = (event) => {
-  const { type, message, output, prompt } = event.data;
+  const { type, message, output, prompts } = event.data;
 
   if (type === "ready") {
     pyodideReady = true;
@@ -64,23 +64,28 @@ pyWorker.onmessage = (event) => {
     outputEl.innerText = message;
   }
 
-  // Handle input requests from Python code
-  if (type === "input_request") {
-    // Show current output first
-    if (output) {
-      outputEl.innerText = output;
-    }
-    
-    // Get input from user
-    const userInput = window.prompt(prompt || "Enter input:");
-    
-    // Send response back to worker
-    pyWorker.postMessage({
-      type: "input_response",
-      value: userInput !== null ? userInput : ""
-    });
+  // Handle request for input collection
+  if (type === "need_inputs") {
+    collectInputsAndExecute(prompts);
   }
 };
+
+// Function to collect all inputs from user and send back to worker
+async function collectInputsAndExecute(prompts) {
+  const inputs = [];
+  
+  for (let i = 0; i < prompts.length; i++) {
+    const prompt = prompts[i];
+    const userInput = window.prompt(prompt);
+    inputs.push(userInput !== null ? userInput : "");
+  }
+  
+  // Send collected inputs back to worker
+  pyWorker.postMessage({
+    type: "inputs_collected",
+    inputs: inputs
+  });
+}
 
 let timeoutId;
 
