@@ -29,6 +29,11 @@
   </div>
   <button onclick="runPython()">Run Code</button>
   <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <div id="input-modal" class="modal" style="display: none;">
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">
       <p id="modal-prompt"></p>
@@ -38,10 +43,6 @@
       </div>
     </div>
   </div>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
-  
 
   <script src="/Code-Platoon-Code-Editor/main.js"></script>
 </body>
