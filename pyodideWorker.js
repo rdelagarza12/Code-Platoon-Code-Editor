@@ -165,32 +165,28 @@ function extractInputPrompts(code) {
  */
 function replaceInputCalls(code, inputs) {
   let inputIndex = 0;
-  
-  // Replace each input() call with the corresponding input value
-  const modifiedCode = code.replace(/input\s*\(\s*([^)]*)\s*\)/g, (match, promptArg) => {
-    if (inputIndex < inputs.length) {
-      const inputValue = inputs[inputIndex];
-      inputIndex++;
-      
-      // Extract and print the prompt if it exists
-      let prompt = promptArg.trim();
-      if (prompt) {
-        // Remove quotes if present
-        if ((prompt.startsWith('"') && prompt.endsWith('"')) || 
-            (prompt.startsWith("'") && prompt.endsWith("'"))) {
-          prompt = prompt.slice(1, -1);
-        }
-        // Print the prompt and the input value (simulating interactive input)
-        return `(print(${JSON.stringify(prompt)}, end=" ") or print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
-      } else {
-        // No prompt, just print the input value
-        return `(print(${JSON.stringify(inputValue)}) or ${JSON.stringify(inputValue)})`;
-      }
-    } else {
-      // Fallback if we don't have enough inputs
+
+  return code.replace(/input\s*\(\s*([^)]*)\s*\)/g, (match, promptArg) => {
+    if (inputIndex >= inputs.length) {
+      // If we run out of inputs, simulate an empty string
       return '""';
     }
+
+    const inputValue = inputs[inputIndex++];
+    let prompt = promptArg.trim();
+
+    if (prompt) {
+      // Remove wrapping quotes from prompt if present
+      if ((prompt.startsWith('"') && prompt.endsWith('"')) ||
+          (prompt.startsWith("'") && prompt.endsWith("'"))) {
+        prompt = prompt.slice(1, -1);
+      }
+
+      // Print the prompt only; input value is returned silently
+      return `(print(${JSON.stringify(prompt + " ")}, end="") or ${JSON.stringify(inputValue)})`;
+    }
+
+    // No prompt — just return the value
+    return JSON.stringify(inputValue);
   });
-  
-  return modifiedCode;
 }
