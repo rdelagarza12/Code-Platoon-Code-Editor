@@ -69,23 +69,25 @@ self.onmessage = async (event) => {
 };
 
 /**
- * Execute code that doesn't contain input() calls
+ * Execute code without input() calls
  */
 async function executeCodeNormally(code) {
   try {
     const wrappedCode = `
 import sys
+import traceback
 from io import StringIO
 
-# Redirect stdout to capture output
+# Redirect stdout and stderr
 sys.stdout = mystdout = StringIO()
+sys.stderr = mystderr = StringIO()
 
 try:
     exec(${JSON.stringify(code)})
-except Exception as e:
-    print("Error:", e)
+except Exception:
+    traceback.print_exc()
 
-output = mystdout.getvalue()
+output = mystdout.getvalue() + mystderr.getvalue()
 `;
 
     await pyodide.runPythonAsync(wrappedCode);
@@ -97,26 +99,27 @@ output = mystdout.getvalue()
 }
 
 /**
- * Execute code with collected input values by replacing input() calls
+ * Execute code with collected input values
  */
 async function executeCodeWithInputs(code, inputs) {
   try {
-    // Replace input() calls with actual values
     const modifiedCode = replaceInputCalls(code, inputs);
     
     const wrappedCode = `
 import sys
+import traceback
 from io import StringIO
 
-# Redirect stdout to capture output
+# Redirect stdout and stderr
 sys.stdout = mystdout = StringIO()
+sys.stderr = mystderr = StringIO()
 
 try:
     exec(${JSON.stringify(modifiedCode)})
-except Exception as e:
-    print("Error:", e)
+except Exception:
+    traceback.print_exc()
 
-output = mystdout.getvalue()
+output = mystdout.getvalue() + mystderr.getvalue()
 `;
 
     await pyodide.runPythonAsync(wrappedCode);
@@ -126,6 +129,7 @@ output = mystdout.getvalue()
     self.postMessage({ type: "error", message: err.toString() });
   }
 }
+
 
 /**
  * Extract input prompts from code
