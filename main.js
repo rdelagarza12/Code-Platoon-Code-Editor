@@ -121,12 +121,25 @@ function showPromptModal(promptText) {
     modal.style.display = "flex";
     inputEl.focus();
 
+    // OK handler
     window.submitInput = () => {
       modal.style.display = "none";
+      document.removeEventListener("keydown", keyListener);
       resolve(inputEl.value);
     };
+
+    // Handle Enter key
+    function keyListener(e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        window.submitInput();
+      }
+    }
+
+    document.addEventListener("keydown", keyListener);
   });
 }
+
 
 
 // Run Python button handler
