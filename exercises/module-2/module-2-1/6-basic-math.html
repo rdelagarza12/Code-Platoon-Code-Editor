@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 6: Basic Math</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
+  <link rel="stylesheet" href="/Code-Platoon-Code-Editor/style.css">
+
+  <!-- Codemirror JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/python/python.min.js"></script>
+  <!-- Pyodide JS-->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Exercise 6: Basic Math</h1>
+  <p>
+    Create a program that takes your grade from three different classes and returns your overall average. The averages is calculated by adding everything together and dividing the sum by the amount of values that were added.
+  </p>
+  <h4>Example Input:</h4>
+  <pre>
+    english = 95
+    math = 88
+    history = 76
+  </pre>
+  <h4>Example Output:</h4>
+  <pre>
+    86.33
+  </pre>
+  <h4>Tasks</h4>
+  <ol>
+    <li>Create three different variables for your three classes</li>
+    <li>Create a seperate variable for the sum of all the classes</li>
+    <li>Create a final variable that calculates the average</li>
+    <li>Output the result</li>
+  </ol>
+  <div class="editor-container">
+    <textarea id="code"></textarea>
+  </div>
+  <button onclick="runPython()">Run Code</button>
+  <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <div id="input-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p id="modal-prompt"></p>
+      <input type="text" id="modal-input" />
+      <div class="modal-buttons">
+        <button onclick="submitInput()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/Code-Platoon-Code-Editor/main.js"></script>
+</body>
+</html>
