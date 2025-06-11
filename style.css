@@ -29,6 +29,7 @@ pre {
   background-color: rgb(240,240,240); /* Light gray for contrast */
   border-radius: 5px;
   overflow-x: auto; /* Helps with long lines */
+  padding-top: 5px;
 }
 
 pre code {
