@@ -24,10 +24,9 @@ li {
 }
 
 pre {
-  font-size: 25px; /* Adjust as needed */
-  font-family: Consolas, Monaco, 'Courier New', monospace; /* A good font for code */
-  background-color: #f4f4f4; /* Light gray for contrast */
-  padding: 10px;
+  font-size: 16px; /* Adjust as needed */
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  background-color: rgb(240,240,240); /* Light gray for contrast */
   border-radius: 5px;
   overflow-x: auto; /* Helps with long lines */
 }
