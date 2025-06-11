@@ -23,6 +23,16 @@ li {
   margin: 10px 0;
 }
 
+pre {
+  font-size: 16px; /* Adjust as needed */
+  font-family: Consolas, Monaco, 'Courier New', monospace; /* A good font for code */
+  background-color: #f4f4f4; /* Light gray for contrast */
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto; /* Helps with long lines */
+}
+
+
 /* Editor Container – Softened edges with rounded corners, shadows, and overflow hidden */
 .editor-container {
   border: 1px solid rgb(0, 48, 74);
