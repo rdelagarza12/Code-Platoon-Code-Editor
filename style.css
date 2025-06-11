@@ -23,6 +23,14 @@ li {
   margin: 10px 0;
 }
 
+code {
+  font-size: inherit; /* Match the surrounding font size */
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  background-color: rgba(220, 235, 250, 0.5); /* Soft colored background */
+  padding: 2px 4px; /* Small amount of padding for readability */
+  border-radius: 3px; /* Rounded corners */
+}
+
 pre {
   font-size: 16px; /* Adjust as needed */
   font-family: Consolas, Monaco, 'Courier New', monospace;
