@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 9: Simple String Indexing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
+  <link rel="stylesheet" href="/Code-Platoon-Code-Editor/style.css">
+
+  <!-- Codemirror JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/python/python.min.js"></script>
+  <!-- Pyodide JS-->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Exercise 9: Simple String Indexing</h1>
+  <p>
+    Create a program that demonstrates basic string indexing. The program should use a 
+    predefined word and show how to access specific characters through indexing.
+  </p>
+  <h4>Example Output:</h4>
+  <pre>
+    Word: apple
+    First character: a
+    Last character: e 
+    Middle character: p 
+  </pre>
+  <h4>Tasks</h4>
+  <ol>
+    <li>Create a variable with the word "apple"</li>
+    <li>Display the original word</li>
+    <li>Display the first character using indexing</li>
+    <li>Display the last character using indexing</li>
+    <li>Display the middle character</li>
+  </ol>
+  <div class="editor-container">
+    <textarea id="code"></textarea>
+  </div>
+  <button onclick="runPython()">Run Code</button>
+  <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <div id="input-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p id="modal-prompt"></p>
+      <input type="text" id="modal-input" />
+      <div class="modal-buttons">
+        <button onclick="submitInput()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/Code-Platoon-Code-Editor/main.js"></script>
+</body>
+</html>

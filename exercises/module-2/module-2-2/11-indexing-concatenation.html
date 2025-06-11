@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 11: String Indexing with Word Extraction</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
+  <link rel="stylesheet" href="/Code-Platoon-Code-Editor/style.css">
+
+  <!-- Codemirror JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/python/python.min.js"></script>
+  <!-- Pyodide JS-->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Exercise 11: String Indexing With Word Extraction</h1>
+  <p>
+    Create a program that demonstrates string indexing using a sentence. The program uses a predefined sentence
+    and asks the user to extract specific words using indexing. These words are then combined to form a meaningful phrase.
+  </p>
+  <h4>Expected Input:</h4>
+  <pre>
+    "Well, I truly love pancakes, yet the python escaped."
+  </pre>
+  <h4>
+    Expected Output:
+  </h4>
+  <pre>
+    word1: I 
+    word2: love 
+    word3: python 
+    combined_sentence: I love python
+  </pre>
+  <h4>Tasks</h4>
+  <ol>
+    <li>Use indexing to extract the following words:<br>
+        <ul>
+            <li>"I"</li>
+            <li>"love"</li>
+            <li>"python"</li>
+        </ul>
+    </li>
+    <li>Store each of these words in their own variables: `word1`, `word2`, and `word3`.</li>
+    <li>Concatenate these words with spaces in between to form a new string: "I love python" into a new variable</li>
+    <li>Display the final sentence</li>
+  </ol>
+  <div class="editor-container">
+    <textarea id="code"></textarea>
+  </div>
+  <button onclick="runPython()">Run Code</button>
+  <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <div id="input-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p id="modal-prompt"></p>
+      <input type="text" id="modal-input" />
+      <div class="modal-buttons">
+        <button onclick="submitInput()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/Code-Platoon-Code-Editor/main.js"></script>
+</body>
+</html>
