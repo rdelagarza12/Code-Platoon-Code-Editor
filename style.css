@@ -31,6 +31,13 @@ pre {
   overflow-x: auto; /* Helps with long lines */
 }
 
+pre code {
+  display: block; /* Ensures block-level behavior */
+  padding-top: 4px; /* Adds space at the top */
+  padding-bottom: 4px; /* Adds space at the bottom */
+}
+
+
 
 /* Editor Container – Softened edges with rounded corners, shadows, and overflow hidden */
 .editor-container {
