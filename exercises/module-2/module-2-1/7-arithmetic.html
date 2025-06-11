@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 7: Arithmetic</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
+  <link rel="stylesheet" href="/Code-Platoon-Code-Editor/style.css">
+
+  <!-- Codemirror JS-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/mode/python/python.min.js"></script>
+  <!-- Pyodide JS-->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
+</head>
+<body>
+  <h1>Exercise 7: Arithmetic</h1>
+  <p>
+    Create a program that simulates adjusting a monthly after purchasing a new car.
+    The user starts with an initial budget, and the program performs a series of operations that reflect
+    how much less money they will have per month.
+  </p>
+  <h4>Example Input</h4>
+  <pre>
+    Starting budget: 2000
+  </pre>
+  <h4>Example Output:</h4>
+  <pre>
+    Starting budget: 2000.0
+    After spending 550 on the car loan: 1450.0
+    After earning 150 from freelancing: 1600.0
+    After spending 30 on gas: 1570.0
+    After spending 150 on insurance: 1420.0
+  </pre>
+  <h4>Tasks</h4>
+  <ol>
+    <li>Create a variable to store the user's starting budget</li>
+    <li>Display the starting value</li>
+    <li>Subtract 550 from the car loan</li>
+    <li>Display the new value</li>
+    <li>Add 150 for freelancing and reassign</li>
+    <li>Display the new value</li>
+    <li>Subtract 30 for gas</li>
+    <li>Subtract 150 due to insurance</li>
+    <li>Display the final value</li>
+  </ol>
+  <div class="editor-container">
+    <textarea id="code"></textarea>
+  </div>
+  <button onclick="runPython()">Run Code</button>
+  <button onclick="resetCode()">Reset</button>
+
+  <pre id="output" aria-live="polite"></pre>
+  <div id="warning" class="warning-box" style="display: none;"></div>
+
+  <div id="input-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p id="modal-prompt"></p>
+      <input type="text" id="modal-input" />
+      <div class="modal-buttons">
+        <button onclick="submitInput()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/Code-Platoon-Code-Editor/main.js"></script>
+</body>
+</html>
