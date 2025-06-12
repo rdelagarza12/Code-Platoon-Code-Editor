@@ -53,9 +53,10 @@ pre code {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: auto;             /* Required for resizing */
-  resize: vertical;           /* Allow vertical resizing by user */
-  min-height: 300px;          /* Minimum size for usability */
-  max-height: 90vh;           /* Prevent from overflowing the screen */
+  resize: vertical;           /* Enable vertical resize */
+  height: 400px;              /* Starting height
+  min-height: 300px;          /* Prevent shrinking too small */
+  max-height: 90vh;           /* Prevent overflow on tall screens */
 }
 
 /* CodeMirror Editor Styling */
@@ -66,7 +67,8 @@ pre code {
   color: #000;
   border: none;
   border-radius: 8px;
-  box-sizing: border-box;     /* Prevent overflow issues */
+  height: 100% !important;    /* Fill resizable container */
+  box-sizing: border-box;
 }
 
 
