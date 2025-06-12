@@ -163,17 +163,46 @@ button:hover {
   flex-direction: row;
   gap: 30px;
   align-items: flex-start;
-  flex-wrap: wrap; /* Allows stacking on smaller screens */
+  flex-wrap: wrap;
 }
 
+/* Left side: scrollable */
 .exercise-description {
   flex: 1;
   min-width: 280px;
   max-width: 40%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  scroll-behavior: smooth;
 }
 
+/* Right side: fixed in place */
 .exercise-editor {
   flex: 1;
   min-width: 300px;
   max-width: 55%;
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+}
+
+/* Smooth and styled scrollbar */
+.exercise-description::-webkit-scrollbar {
+  width: 10px;
+}
+
+.exercise-description::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+.exercise-description::-webkit-scrollbar-thumb {
+  background-color: rgb(240, 90, 26);
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+}
+
+.exercise-description::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(200, 70, 20);
 }
