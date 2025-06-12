@@ -46,26 +46,31 @@ pre code {
   padding-bottom: 4px; /* Adds space at the bottom */
 }
 
-
-
-/* Editor Container – Softened edges with rounded corners, shadows, and overflow hidden */
+/* Editor Container – Resizable with softened edges and shadow */
 .editor-container {
   border: 1px solid rgb(0, 48, 74);
   margin-bottom: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden; /* Ensures child elements follow the rounded corners */
+  overflow: auto;             /* Required for resizing */
+  resize: vertical;           /* Allow vertical resizing by user */
+  height: 66vh;               /* Take up 2/3 of the viewport initially */
+  min-height: 300px;          /* Minimum size for usability */
+  max-height: 90vh;           /* Prevent from overflowing the screen */
 }
 
 /* CodeMirror Editor Styling */
 .CodeMirror {
   font-family: Menlo, Monaco, "Courier New", monospace;
   font-size: 14px;
-  background-color: #fff;  /* White background for clarity */
-  color: #000;             /* Black text for contrast */
-  border: none;            /* Remove CodeMirror's default border */
-  border-radius: 8px;       /* Rounded corners to match container */
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  height: 100% !important;    /* Ensure it fills container */
+  box-sizing: border-box;     /* Prevent overflow issues */
 }
+
 
 /* Highlight for selected text using a translucent version of your primary brand color */
 .CodeMirror-selected {
