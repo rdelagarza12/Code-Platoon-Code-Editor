@@ -154,3 +154,26 @@ button:hover {
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(255, 0, 0, 0.1);
 }
+
+
+/* SIDE BY SIDE CODE EDITOR CSS */
+
+.exercise-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Allows stacking on smaller screens */
+}
+
+.exercise-description {
+  flex: 1;
+  min-width: 280px;
+  max-width: 40%;
+}
+
+.exercise-editor {
+  flex: 1;
+  min-width: 300px;
+  max-width: 55%;
+}
