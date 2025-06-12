@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Exercise #: Exercise Title</title>
+  <title>Exercise 20: String Interpolation</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.3/codemirror.min.css">
   <link rel="stylesheet" href="/Code-Platoon-Code-Editor/style.css">
 
@@ -13,10 +13,28 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise #: Exercise Title</h1>
+  <h1>Exercise 20: String Interpolation</h1>
   <p>
-    Define your problem here
+    Create a program that creates variables for a Student's school record and use the f-string
+    method to create an Interpolated String.
+    Notice: when using the f string you do not need to convert your variables to strings beforehand
   </p>
+  <h4>Expected Input:</h4>
+  <pre>
+    Students name: "Jason Borne"
+    Student ID: "JB6748"
+    Student GPA: 3.8
+  </pre>
+  <h4>Expected Output:</h4>
+  <pre>
+    Interpolated String: "Name: Jason Borne, ID: JB6748, GPA: 3.8"
+  </pre>
+  <h4>Tasks</h4>
+  <ol>
+    <li>Create variables for the Student name, id, and gpa</li>
+    <li>Create a seperate variable using the f string to create an Interpolated String</li>
+    <li>Display the students record</li>
+  </ol>
   <div class="editor-container">
     <textarea id="code"></textarea>
   </div>
@@ -36,10 +54,6 @@
     </div>
   </div>
 
-  <script>
-    // Pre-loaded code for Exercise 2
-    const initial_code = `Write any predefined code here`;
-  </script>
   <script src="/Code-Platoon-Code-Editor/main.js"></script>
 </body>
 </html>
