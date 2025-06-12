@@ -15,14 +15,61 @@
 <body>
   <div class="exercise-layout">
     <div class="exercise-description">
-      <h1>Exercise 21: Basic Calculator</h1>
-      <p>
-        Create a basic calculator that asks the user for two numbers and an operation 
-        (+, -, *, /), performs the operation, and prints the result.
-      </p>
-      <p>
-        Be sure to handle invalid input (e.g., division by zero or non-numeric input).
-      </p>
+        <h1>Basic Calculator</h1>
+
+        <h2>Description</h2>
+        <p>Build a simple calculator program that takes two numbers from the user and performs all four basic mathematical operations (addition, subtraction, multiplication, and division). Your program should display the results in a clean, formatted way.</p>
+
+        <h2>Tasks</h2>
+        <p>Your program must:</p>
+        <ol>
+            <li>Welcome the user to the calculator</li>
+            <li>Ask the user to enter two numbers (support both integers and decimals)</li>
+            <li>Perform all four basic operations: +, -, *, /</li>
+            <li>Display the results using formatted strings</li>
+            <li>Handle division by zero appropriately</li>
+            <li>Round division results to 2 decimal places for cleaner output</li>
+        </ol>
+
+        <h2>Expected Output Format</h2>
+        <pre>
+            <code>
+                Welcome to the Simple Calculator!
+                Enter the first number: 5
+                Enter the second number: 3
+                5.0 + 3.0 = 8.0
+                5.0 - 3.0 = 2.0
+                5.0 * 3.0 = 15.0
+                5.0 / 3.0 = 1.67
+            </code>
+        </pre>
+
+        <h2>Step-by-Step Guide</h2>
+        
+        <h3>Step 1: Set up user input</h3>
+        <ul>
+            <li>Print a welcome message</li>
+            <li>Use <code>input()</code> to get two numbers from the user</li>
+            <li>Convert the input strings to numbers (hint: consider using <code>float()</code> to handle decimals)</li>
+        </ul>
+
+        <h3>Step 2: Perform calculations</h3>
+        <ul>
+            <li>Create variables to store the results of each operation</li>
+            <li>Perform addition, subtraction, multiplication, and division</li>
+        </ul>
+
+        <h3>Step 3: Display results</h3>
+        <ul>
+            <li>Use f-strings to format your output nicely</li>
+            <li>Show each operation and its result</li>
+        </ul>
+
+        <h3>Step 4: Handle edge cases</h3>
+        <ul>
+            <li>Add a check to prevent division by zero</li>
+            <li>Use <code>round()</code> to make division results cleaner (2 decimal places)</li>
+        </ul>
     </div>
 
     <div class="exercise-editor">
