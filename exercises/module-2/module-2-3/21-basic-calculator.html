@@ -13,19 +13,31 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <!-- <h1>Exercise 21: Basic Calculator</h1> -->
-  <!-- <p>
-    Define your problem here
-  </p> -->
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 21: Basic Calculator</h1>
+      <p>
+        Create a basic calculator that asks the user for two numbers and an operation 
+        (+, -, *, /), performs the operation, and prints the result.
+      </p>
+      <p>
+        Be sure to handle invalid input (e.g., division by zero or non-numeric input).
+      </p>
+    </div>
+
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
 
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
-
+  <!-- Modal for input() prompts -->
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">
       <p id="modal-prompt"></p>
@@ -37,7 +49,6 @@
   </div>
 
   <script>
-    // Pre-loaded code for Exercise 2
     const initial_code = `"""Create Your Basic Calculator Below"""`;
   </script>
   <script src="/Code-Platoon-Code-Editor/main.js"></script>
