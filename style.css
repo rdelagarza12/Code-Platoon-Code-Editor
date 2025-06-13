@@ -23,6 +23,42 @@ li {
   margin: 10px 0;
 }
 
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  padding-bottom: 40px;
+}
+
+.exercise-card {
+  background-color: #ffffff; /* contrast with #fafafa background */
+  border: 1px solid rgba(0, 48, 74, 0.15); /* soft border */
+  border-left: 4px solid rgb(240, 90, 26); /* accent stripe */
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05); /* light lift */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s;
+  padding: 16px;
+}
+
+.exercise-card:hover {
+  background-color: #fdf5f2; /* subtle orange-tinted hover */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+.exercise-card a {
+  text-decoration: none;
+  color: rgb(240, 90, 26);
+  font-weight: bold;
+  font-size: 1em;
+  display: block;
+}
+
+.exercise-card a:hover {
+  color: rgb(0, 48, 74);
+}
+
 code {
   font-size: inherit; /* Match the surrounding font size */
   font-family: Consolas, Monaco, 'Courier New', monospace;
