@@ -13,42 +13,48 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 10: String Indexing</h1>
-  <p>
-    Create a program that demonstrates string indexing, using slicing. The program should ask the user for a 6 letter word, and then
-    manipulate that string by accessing specific characters through indexing.
-  </p>
-  <h4>Example Input:</h4>
-  <pre>
-    Enter a 6 letter word: Python
-  </pre>
-  <h4>Example Output:</h4>
-  <pre>
-    Original word: Python
-    First character: P 
-    Last character: n 
-    First three characters: Pyt
-    Last three character: hon 
-    All letters between the first and last letter: ytho
-  </pre>
-  <h4>Tasks:</h4>
-  <ol>
-    <li>Create a variable to store the user's input word</li>
-    <li>Display the original word</li>
-    <li>Display the first character using indexing</li>
-    <li>Display the last character using indexing</li>
-    <li>Display the first three characters using slicing</li>
-    <li>Display the last three characters using slicing</li>
-    <li>Display the letters between the first and last letter</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 10: String Indexing</h1>
+      <p>
+        Create a program that demonstrates string indexing, using slicing. The program should ask the user for a 6 letter word, and then
+        manipulate that string by accessing specific characters through indexing.
+      </p>
+      <h4>Example Input:</h4>
+      <pre>
+        Enter a 6 letter word: Python
+      </pre>
+      <h4>Example Output:</h4>
+      <pre>
+        Original word: Python
+        First character: P 
+        Last character: n 
+        First three characters: Pyt
+        Last three character: hon 
+        All letters between the first and last letter: ytho
+      </pre>
+      <h4>Tasks:</h4>
+      <ol>
+        <li>Create a variable to store the user's input word</li>
+        <li>Display the original word</li>
+        <li>Display the first character using indexing</li>
+        <li>Display the last character using indexing</li>
+        <li>Display the first three characters using slicing</li>
+        <li>Display the last three characters using slicing</li>
+        <li>Display the letters between the first and last letter</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

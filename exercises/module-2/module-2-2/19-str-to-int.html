@@ -13,36 +13,42 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 19: String To Integer Conversion</h1>
-  <p>
-    This problem shows how to convert string input into numbers in order to perform arithmetic operations.
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    First number: 8
-    Second number: 12
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    Sum: 20
-  </pre>
-  <h4>Tasks:</h4>
-  <ol>
-    <li>Ask the user to enter the first number and store it in a variable <code>num1</code></li>
-    <li>Ask the user to enter the second number and store it in a variable <code>num2</code></li>
-    <li>Convert both inputs to integers using <code>int()</code></li>
-    <li>Add the two numbers together</li>
-    <li>Ensure all 3 numbers are converted to strings if they're not</li>
-    <li>Display the result in the format: "The sum of [num1] and [num2] is [result]</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 19: String To Integer Conversion</h1>
+      <p>
+        This problem shows how to convert string input into numbers in order to perform arithmetic operations.
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        First number: 8
+        Second number: 12
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        Sum: 20
+      </pre>
+      <h4>Tasks:</h4>
+      <ol>
+        <li>Ask the user to enter the first number and store it in a variable <code>num1</code></li>
+        <li>Ask the user to enter the second number and store it in a variable <code>num2</code></li>
+        <li>Convert both inputs to integers using <code>int()</code></li>
+        <li>Add the two numbers together</li>
+        <li>Ensure all 3 numbers are converted to strings if they're not</li>
+        <li>Display the result in the format: "The sum of [num1] and [num2] is [result]</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

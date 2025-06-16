@@ -13,36 +13,42 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 17: Modulus</h1>
-  <p>
-    Create a program that checks if a number is even or odd using the modulus operator. The Modulus operator is at its
-    core just simple division, but instead it returns what is remaining AFTER the division. It is often called the "Remainder" 
-    operator.
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    num1 = 17
-    num2 = 16
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    remainder1 = 1
-    remainder2 = 0
-  </pre>
-  <h4>Tasks:</h4>
-  <ol>
-    <li>Create two different variables one that is not even and one that is</li>
-    <li>Use the modulus operator <code>%</code> to determine if the number is divisible by 2 assigning it to their own variable</li>
-    <li>Display both results to see the difference between an odd and an even number</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 17: Modulus</h1>
+      <p>
+        Create a program that checks if a number is even or odd using the modulus operator. The Modulus operator is at its
+        core just simple division, but instead it returns what is remaining AFTER the division. It is often called the "Remainder" 
+        operator.
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        num1 = 17
+        num2 = 16
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        remainder1 = 1
+        remainder2 = 0
+      </pre>
+      <h4>Tasks:</h4>
+      <ol>
+        <li>Create two different variables one that is not even and one that is</li>
+        <li>Use the modulus operator <code>%</code> to determine if the number is divisible by 2 assigning it to their own variable</li>
+        <li>Display both results to see the difference between an odd and an even number</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

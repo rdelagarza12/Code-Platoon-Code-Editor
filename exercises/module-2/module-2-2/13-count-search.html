@@ -13,43 +13,49 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 13: Substring Search and Count</h1>
-  <p>
-    Create a predefined variable with the string "Python is powerful and Python is easy to learn." Using the <code>.count()</code> method,
-    count how many times the word "Python" appears within the string. Finally use the <code>.find()</code> method to find the first
-    occurence of "powerful"
-  </p>
-  <h4>Syntax Example:</h4>
-  <p>
-    <code>.count()</code> => <code>my_variable.count(value)</code>
-    <code>.find()</code> => <code>string.find(substring)</code>
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    "Python is powerful and Python is easy to learn"
-  </pre>
-  <h4>
-    Expected Output:
-  </h4>
-  <pre>
-    "Python" count : 2
-    Index of "powerful": 10
-  </pre>
-  <h4>Task</h4>
-  <ol>
-    <li>Create a variable <code>quote</code> and assign it the value: "Python is powerful and Python is easy to learn"</li>
-    <li>Count how many times the word "Python" appears using <code>.count("Python")</code></li>
-    <li>Find the index position of the first occurence of "powerful" using <code>.find("powerful")</code></li>
-    <li>Display both results</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 13: Substring Search and Count</h1>
+      <p>
+        Create a predefined variable with the string "Python is powerful and Python is easy to learn." Using the <code>.count()</code> method,
+        count how many times the word "Python" appears within the string. Finally use the <code>.find()</code> method to find the first
+        occurence of "powerful"
+      </p>
+      <h4>Syntax Example:</h4>
+      <p>
+        <code>.count()</code> => <code>my_variable.count(value)</code>
+        <code>.find()</code> => <code>string.find(substring)</code>
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        "Python is powerful and Python is easy to learn"
+      </pre>
+      <h4>
+        Expected Output:
+      </h4>
+      <pre>
+        "Python" count : 2
+        Index of "powerful": 10
+      </pre>
+      <h4>Task</h4>
+      <ol>
+        <li>Create a variable <code>quote</code> and assign it the value: "Python is powerful and Python is easy to learn"</li>
+        <li>Count how many times the word "Python" appears using <code>.count("Python")</code></li>
+        <li>Find the index position of the first occurence of "powerful" using <code>.find("powerful")</code></li>
+        <li>Display both results</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

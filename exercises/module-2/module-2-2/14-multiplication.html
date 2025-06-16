@@ -13,35 +13,41 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 14: Multiplication</h1>
-  <p>
-    Create a program that has two variables, number of pencils, and number of boxes and then  
-    calculate the total number of pencils if each box holds the same number of pencils.
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    Number of pencils: 20
-    Number of boxes: 4
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    80
-  </pre>
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create a variable with the quantity of pencils per box</li>
-    <li>Create a variable with the quantity of boxes</li>
-    <li>Multiply the two numbers to get the total number of pencils</li>
-    <li>Display the result</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 14: Multiplication</h1>
+      <p>
+        Create a program that has two variables, number of pencils, and number of boxes and then  
+        calculate the total number of pencils if each box holds the same number of pencils.
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        Number of pencils: 20
+        Number of boxes: 4
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        80
+      </pre>
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create a variable with the quantity of pencils per box</li>
+        <li>Create a variable with the quantity of boxes</li>
+        <li>Multiply the two numbers to get the total number of pencils</li>
+        <li>Display the result</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

@@ -13,34 +13,40 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 9: Simple String Indexing</h1>
-  <p>
-    Create a program that demonstrates basic string indexing. The program should use a 
-    predefined word and show how to access specific characters through indexing.
-  </p>
-  <h4>Example Output:</h4>
-  <pre>
-    Word: apple
-    First character: a
-    Last character: e 
-    Middle character: p 
-  </pre>
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create a variable with the word "apple"</li>
-    <li>Display the original word</li>
-    <li>Display the first character using indexing</li>
-    <li>Display the last character using indexing</li>
-    <li>Display the middle character</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 9: Simple String Indexing</h1>
+      <p>
+        Create a program that demonstrates basic string indexing. The program should use a 
+        predefined word and show how to access specific characters through indexing.
+      </p>
+      <h4>Example Output:</h4>
+      <pre>
+        Word: apple
+        First character: a
+        Last character: e 
+        Middle character: p 
+      </pre>
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create a variable with the word "apple"</li>
+        <li>Display the original word</li>
+        <li>Display the first character using indexing</li>
+        <li>Display the last character using indexing</li>
+        <li>Display the middle character</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

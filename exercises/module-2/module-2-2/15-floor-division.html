@@ -13,36 +13,42 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 15: Floor Division</h1>
-  <p>
-    You have a group of students and you want to divide them into teams of equal size.  
-    Create a program that calculates how many full teams you can form. The floor division
-    does normal division put rounds down to the nearest whole number
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    Number of students: 23
-    Number of students per team: 4
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    How many teams: 5
-  </pre>
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create a variable for number of students</li>
-    <li>Create a variable for numbers of students per teams</li>
-    <li>Use floor division <code>//</code> to calculate how many full teams can be formed</li>
-    <li>Display the result</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 15: Floor Division</h1>
+      <p>
+        You have a group of students and you want to divide them into teams of equal size.  
+        Create a program that calculates how many full teams you can form. The floor division
+        does normal division put rounds down to the nearest whole number
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        Number of students: 23
+        Number of students per team: 4
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        How many teams: 5
+      </pre>
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create a variable for number of students</li>
+        <li>Create a variable for numbers of students per teams</li>
+        <li>Use floor division <code>//</code> to calculate how many full teams can be formed</li>
+        <li>Display the result</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

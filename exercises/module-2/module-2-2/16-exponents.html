@@ -13,34 +13,40 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 16: Exponents</h1>
-  <p>
-    Create a program that helps calculate the power of a number by creating a base and exponent
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    base = 2
-    exponent = 3
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    2^3 = 8
-  </pre>
-  <h4>Tasks:</h4>
-  <ol>
-    <li>Create a variable for the base</li>
-    <li>Create a variable for the exponent</li>
-    <li>Use the exponent operator <code>**</code> to calculate the result</li>
-    <li>Display the result</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 16: Exponents</h1>
+      <p>
+        Create a program that helps calculate the power of a number by creating a base and exponent
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        base = 2
+        exponent = 3
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        2^3 = 8
+      </pre>
+      <h4>Tasks:</h4>
+      <ol>
+        <li>Create a variable for the base</li>
+        <li>Create a variable for the exponent</li>
+        <li>Use the exponent operator <code>**</code> to calculate the result</li>
+        <li>Display the result</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

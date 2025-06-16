@@ -13,35 +13,41 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 18: Integer To String Conversion</h1>
-  <p>
-    This problem demonstrates how to convert an integer to a string so it can be used in concatenation.
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    Integer variable: 25
-    String input from user: "Alice"
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    Final message = "Hi Alice, you are 25 years old"
-  </pre>
-  <h4>Tasks:</h4>
-  <ol>
-    <li>Create a variable called <code>age</code> and assign it the integer value of your choice</li>
-    <li>Ask the user for their name using the <code>input()</code> function and store it in a variable code <code>name</code></li>
-    <li>Convert the <code>age</code> variable to a string using <code>str()</code></li>
-    <li>Concatenate the <code>name</code> and <code>age</code> into a full sentence like: "Hi [name], you are [age] years old."</li>
-    <li>Display the final message</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 18: Integer To String Conversion</h1>
+      <p>
+        This problem demonstrates how to convert an integer to a string so it can be used in concatenation.
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        Integer variable: 25
+        String input from user: "Alice"
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        Final message = "Hi Alice, you are 25 years old"
+      </pre>
+      <h4>Tasks:</h4>
+      <ol>
+        <li>Create a variable called <code>age</code> and assign it the integer value of your choice</li>
+        <li>Ask the user for their name using the <code>input()</code> function and store it in a variable code <code>name</code></li>
+        <li>Convert the <code>age</code> variable to a string using <code>str()</code></li>
+        <li>Concatenate the <code>name</code> and <code>age</code> into a full sentence like: "Hi [name], you are [age] years old."</li>
+        <li>Display the final message</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

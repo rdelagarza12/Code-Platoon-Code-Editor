@@ -13,47 +13,52 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 12: String Methods Practice</h1>
-  <p>
-    Use string methods to change the capitalization of a predefined variable. When using methods on a variable the normal
-    syntax is by appending the method to the end of the variable.<br>
-    <strong>Example:</strong> <code>my_variable.lower()</code>
-  </p>
-  <p>
-    <strong>Notice:</strong> Strings are immutable, which means they can't change. You have to re‑assign the variable to see any change.
-  </p>
-
-  <h4>Expected Input:</h4>
-  <pre>
-    "learning Python is FUN!"
-  </pre>
-
-  <h4>Expected Output:</h4>
-  <pre>
-    Lowercase: learning python is fun!
-    Uppercase: LEARNING PYTHON IS FUN!
-    Capitalized: Learning python is fun!
-  </pre>
-
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create a variable <code>text</code> and assign it the value: "learning Python is FUN!"</li>
-    <li>Convert the entire string to lowercase using <code>.lower()</code> and re‑assign it.</li>
-    <li>Display the result.</li>
-    <li>Convert the entire string to uppercase using <code>.upper()</code> and re‑assign it.</li>
-    <li>Display the result.</li>
-    <li>Capitalize just the first character of the string using <code>.capitalize()</code> and re‑assign it.</li>
-    <li>Display the result.</li>
-  </ol>
-
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 12: String Methods Practice</h1>
+      <p>
+        Use string methods to change the capitalization of a predefined variable. When using methods on a variable the normal
+        syntax is by appending the method to the end of the variable.<br>
+        <strong>Example:</strong> <code>my_variable.lower()</code>
+      </p>
+      <p>
+        <strong>Notice:</strong> Strings are immutable, which means they can't change. You have to re‑assign the variable to see any change.
+      </p>
+    
+      <h4>Expected Input:</h4>
+      <pre>
+        "learning Python is FUN!"
+      </pre>
+    
+      <h4>Expected Output:</h4>
+      <pre>
+        Lowercase: learning python is fun!
+        Uppercase: LEARNING PYTHON IS FUN!
+        Capitalized: Learning python is fun!
+      </pre>
+    
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create a variable <code>text</code> and assign it the value: "learning Python is FUN!"</li>
+        <li>Convert the entire string to lowercase using <code>.lower()</code> and re‑assign it.</li>
+        <li>Display the result.</li>
+        <li>Convert the entire string to uppercase using <code>.upper()</code> and re‑assign it.</li>
+        <li>Display the result.</li>
+        <li>Capitalize just the first character of the string using <code>.capitalize()</code> and re‑assign it.</li>
+        <li>Display the result.</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

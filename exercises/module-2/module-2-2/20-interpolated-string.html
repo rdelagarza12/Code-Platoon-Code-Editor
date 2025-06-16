@@ -13,37 +13,43 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 20: String Interpolation</h1>
-  <p>
-    Create a program that creates variables for a Student's school record and use the f-string
-    method to create an Interpolated String.
-  <p>
-    <strong>Notice:</strong> When using the f-string you do not need to convert your variables to strings beforehand
-  </p>
-  <h4>Expected Input:</h4>
-  <pre>
-    Students name: "Jason Borne"
-    Student ID: "JB6748"
-    Student GPA: 3.8
-  </pre>
-  <h4>Expected Output:</h4>
-  <pre>
-    Interpolated String: "Name: Jason Borne, ID: JB6748, GPA: 3.8"
-  </pre>
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create variables for the Student name, id, and gpa</li>
-    <li>Create a seperate variable using the f-string to create an Interpolated String</li>
-    <li>Display the students record</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-layout">
+    <div class="exercise-description">
+      <h1>Exercise 20: String Interpolation</h1>
+      <p>
+        Create a program that creates variables for a Student's school record and use the f-string
+        method to create an Interpolated String.
+      <p>
+        <strong>Notice:</strong> When using the f-string you do not need to convert your variables to strings beforehand
+      </p>
+      <h4>Expected Input:</h4>
+      <pre>
+        Students name: "Jason Borne"
+        Student ID: "JB6748"
+        Student GPA: 3.8
+      </pre>
+      <h4>Expected Output:</h4>
+      <pre>
+        Interpolated String: "Name: Jason Borne, ID: JB6748, GPA: 3.8"
+      </pre>
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create variables for the Student name, id, and gpa</li>
+        <li>Create a seperate variable using the f-string to create an Interpolated String</li>
+        <li>Display the students record</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+    
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">
