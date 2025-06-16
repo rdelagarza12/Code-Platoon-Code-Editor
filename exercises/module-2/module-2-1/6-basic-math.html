@@ -13,35 +13,41 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 6: Basic Math</h1>
-  <p>
-    Create a program that takes your grade from three different classes and returns your overall average. The averages is calculated by adding everything together and dividing the sum by the amount of values that were added.
-  </p>
-  <h4>Example Input:</h4>
-  <pre>
-    english = 95
-    math = 88
-    history = 76
-  </pre>
-  <h4>Example Output:</h4>
-  <pre>
-    86.33
-  </pre>
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create three different variables for your three classes</li>
-    <li>Create a seperate variable for the sum of all the classes</li>
-    <li>Create a final variable that calculates the average</li>
-    <li>Output the result</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-editor">
+    <div class="editor-container">
+      <h1>Exercise 6: Basic Math</h1>
+      <p>
+        Create a program that takes your grade from three different classes and returns your overall average. The averages is calculated by adding everything together and dividing the sum by the amount of values that were added.
+      </p>
+      <h4>Example Input:</h4>
+      <pre>
+        english = 95
+        math = 88
+        history = 76
+      </pre>
+      <h4>Example Output:</h4>
+      <pre>
+        86.33
+      </pre>
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create three different variables for your three classes</li>
+        <li>Create a seperate variable for the sum of all the classes</li>
+        <li>Create a final variable that calculates the average</li>
+        <li>Output the result</li>
+      </ol>
+    </div>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

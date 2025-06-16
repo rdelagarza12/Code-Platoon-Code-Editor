@@ -13,36 +13,42 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 5: Variable Reassignment</h1>
-  <p>
-    Create a program that swaps the values of two variables. The program should ask the user for two values, 
-    store them in variables <code>a</code> and <code>b</code>, swap their values, and then display the values before and after swapping.
-  </p>
-  <h4>Example Input</h4>
-  <pre>
-    First value (a): 10
-    Second value (b): 20
-  </pre>
-  <h4>Example Output</h4>
-  <pre>
-    Before swapping: a = 10, b = 20
-    After swapping: a = 20, b = 10
-  </pre>
-  <h4>Tasks</h4>
-    <ol>
-        <li>Create variable <code>a</code> and <code>b</code> to store the user's input values</li>
-        <li>Display the values before swapping</li>
-        <li>Swap the values of <code>a</code> and <code>b</code> using a temporary variable</li>
-        <li>Display the values after swapping</li>
-    </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-editor">
+    <div class="editor-container">
+      <h1>Exercise 5: Variable Reassignment</h1>
+      <p>
+        Create a program that swaps the values of two variables. The program should ask the user for two values, 
+        store them in variables <code>a</code> and <code>b</code>, swap their values, and then display the values before and after swapping.
+      </p>
+      <h4>Example Input</h4>
+      <pre>
+        First value (a): 10
+        Second value (b): 20
+      </pre>
+      <h4>Example Output</h4>
+      <pre>
+        Before swapping: a = 10, b = 20
+        After swapping: a = 20, b = 10
+      </pre>
+      <h4>Tasks</h4>
+        <ol>
+            <li>Create variable <code>a</code> and <code>b</code> to store the user's input values</li>
+            <li>Display the values before swapping</li>
+            <li>Swap the values of <code>a</code> and <code>b</code> using a temporary variable</li>
+            <li>Display the values after swapping</li>
+        </ol>
+    </div>    
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">

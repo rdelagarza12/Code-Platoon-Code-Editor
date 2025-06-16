@@ -13,46 +13,52 @@
   <script src="https://cdn.jsdelivr.net/pyodide/v0.18.1/full/pyodide.js"></script>
 </head>
 <body>
-  <h1>Exercise 8: Arithmetic Reassignment</h1>
-  <p>
-    Create a program that demonstrates variable reassignment through basic arithmetic operations.
-    The program should create a variable for a starting number, perform a series of arithmetic
-    operations on that number (reassigning the result back to the same variable each time),
-    and display the value after each operation.
-  </p>
-  <h4>Example Input</h4>
-  <pre>
-    Starting number: 10
-  </pre>
-  <h4>Example Output:</h4>
-  <pre>
-    Starting value: 10.0
-    After adding 5: 15.0
-    After subtracting 3: 12.0
-    After multiplying by 2: 24.0
-    After dividing by 4: 6.0
-  </pre>
-  <h4>Tasks</h4>
-  <ol>
-    <li>Create a variable to store the user's starting number</li>
-    <li>Display the starting value</li>
-    <li>Add 5 to the variable and reassign the result back to the same variable</li>
-    <li>Display the new value</li>
-    <li>Subtract 3 from the variable and reassign the result</li>
-    <li>Dispay the new value</li>
-    <li>Multiply the variable by 2 and reassign the result</li>
-    <li>Display the new value</li>
-    <li>Divide the variable by 4 and reassign the result</li>
-    <li>Display the final value</li>
-  </ol>
-  <div class="editor-container">
-    <textarea id="code"></textarea>
+  <div class="exercise-editor">
+    <div class="editor-container">
+      <h1>Exercise 8: Arithmetic Reassignment</h1>
+      <p>
+        Create a program that demonstrates variable reassignment through basic arithmetic operations.
+        The program should create a variable for a starting number, perform a series of arithmetic
+        operations on that number (reassigning the result back to the same variable each time),
+        and display the value after each operation.
+      </p>
+      <h4>Example Input</h4>
+      <pre>
+        Starting number: 10
+      </pre>
+      <h4>Example Output:</h4>
+      <pre>
+        Starting value: 10.0
+        After adding 5: 15.0
+        After subtracting 3: 12.0
+        After multiplying by 2: 24.0
+        After dividing by 4: 6.0
+      </pre>
+      <h4>Tasks</h4>
+      <ol>
+        <li>Create a variable to store the user's starting number</li>
+        <li>Display the starting value</li>
+        <li>Add 5 to the variable and reassign the result back to the same variable</li>
+        <li>Display the new value</li>
+        <li>Subtract 3 from the variable and reassign the result</li>
+        <li>Dispay the new value</li>
+        <li>Multiply the variable by 2 and reassign the result</li>
+        <li>Display the new value</li>
+        <li>Divide the variable by 4 and reassign the result</li>
+        <li>Display the final value</li>
+      </ol>
+    </div>
+    <div class="editor-container">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
+    </div>
   </div>
-  <button onclick="runPython()">Run Code</button>
-  <button onclick="resetCode()">Reset</button>
-
-  <pre id="output" aria-live="polite"></pre>
-  <div id="warning" class="warning-box" style="display: none;"></div>
 
   <div id="input-modal" class="modal" style="display: none;">
     <div class="modal-content">
