@@ -34,16 +34,16 @@
         <li>Print the variable</li>
       </ol>
     </div>
-  </div>
-  <div class="exercise-editor">
-    <div class="editor-container">
-      <textarea id="code"></textarea>
+    <div class="exercise-editor">
+      <div class="editor-container">
+        <textarea id="code"></textarea>
+      </div>
+      <button onclick="runPython()">Run Code</button>
+      <button onclick="resetCode()">Reset</button>
+      
+      <pre id="output" aria-live="polite"></pre>
+      <div id="warning" class="warning-box" style="display: none;"></div>
     </div>
-    <button onclick="runPython()">Run Code</button>
-    <button onclick="resetCode()">Reset</button>
-  
-    <pre id="output" aria-live="polite"></pre>
-    <div id="warning" class="warning-box" style="display: none;"></div>
   </div>
   
   <div id="input-modal" class="modal" style="display: none;">
